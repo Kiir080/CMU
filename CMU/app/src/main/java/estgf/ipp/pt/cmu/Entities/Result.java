@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.Entities;
 
 
 import android.graphics.drawable.Drawable;
@@ -7,14 +7,16 @@ import android.support.annotation.Nullable;
 import java.io.InputStream;
 import java.net.URL;
 
-public class RecipeResult {
+public class Result {
 
     private ResultType type;
     public int id;
     public String title;
     public String image;
     public String name;
-    private String baseURL = "https://spoonacular.com/recipeImages/{id}-312x231.jpg";
+    private String baseURLRecipe = "https://spoonacular.com/recipeImages/{id}-312x231.jpg";
+    private String baseURLIngredients = "https://spoonacular.com/cdn/ingredients_100x100/{name}.jpg";
+    private String baseURLProdcuts ="https://spoonacular.com/productImages/{id}-312x231.jpg";
 
     public int getId() {
         return id;
@@ -37,18 +39,14 @@ public class RecipeResult {
     @Nullable
     public Drawable loadImage() {
         try {
-            this.baseURL=this.baseURL.replace("{id}",String.valueOf(this.id));
-            InputStream is = (InputStream) new URL(this.baseURL).getContent();
+            this.baseURLRecipe=this.baseURLRecipe.replace("{id}",String.valueOf(this.id));
+            InputStream is = (InputStream) new URL(this.baseURLRecipe).getContent();
             Drawable d = Drawable.createFromStream(is, "useless");
             return d;
         } catch (Exception e) {
             return null;
         }
 
-    }
-    @Override
-    public String toString() {
-        return getTitle();
     }
 
     public String getImage() {

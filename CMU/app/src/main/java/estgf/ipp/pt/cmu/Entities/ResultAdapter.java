@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.Entities;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -6,28 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+
+import estgf.ipp.pt.cmu.R;
 
 public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
     private Context context;
-    private ArrayList<RecipeResult> list;
+    private ArrayList<Result> list;
     private boolean isSet;
 
     public ResultAdapter(Context context){
         this.context=context;
-        list= new ArrayList<RecipeResult>();
+        list= new ArrayList<Result>();
         this.isSet=false;
 
     }
 
-    public synchronized void setList(ArrayList<RecipeResult> list) {
+    public synchronized void setList(ArrayList<Result> list) {
         this.list= list;
         this.isSet=true;
     }
@@ -45,7 +44,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder resultViewHolder, int i) {
-        RecipeResult temp = list.get(i);
+        Result temp = list.get(i);
         isSet=true;
         TextView textView = resultViewHolder.textView;
        if(temp.getType().equals(ResultType.Recipe)){
@@ -61,7 +60,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         return list.size();
     }
 
-    public void addItems(List<RecipeResult> x){
+    public void addItems(List<Result> x){
         list.addAll(x);
         notifyDataSetChanged();
     }

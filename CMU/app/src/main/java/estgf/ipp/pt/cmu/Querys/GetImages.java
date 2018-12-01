@@ -1,13 +1,15 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.Querys;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-public class GetImages extends AsyncTask<RecipeResult,Integer,Drawable[]> {
+import estgf.ipp.pt.cmu.Entities.Result;
+
+public class GetImages extends AsyncTask<Result,Integer,Drawable[]> {
 
 
     @Override
-    protected Drawable[] doInBackground(RecipeResult... recipeResults) {
+    protected Drawable[] doInBackground(Result... recipeResults) {
         Drawable temp[]= new Drawable[recipeResults.length];
         for(int i =0; i< recipeResults.length;i++){
             temp[i]=recipeResults[i].loadImage();

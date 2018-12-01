@@ -9,6 +9,11 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import estgf.ipp.pt.cmu.Entities.ResultAdapter;
+import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
+import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
+import estgf.ipp.pt.cmu.old_Stuff.GetResults;
+
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -43,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         // GetResults products = new GetResults(this,adapter);
       //  ingredients.execute(s,"Ingredients");
         GetIngredientsResult t= new GetIngredientsResult(this,adapter);
-        GetRecipesResults x= new GetRecipesResults(this,adapter);
+        GetRecipesResult x= new GetRecipesResult(this,adapter);
 
         t.execute(s);
         x.execute(s);

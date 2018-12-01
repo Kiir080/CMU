@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.old_Stuff;
 
 import android.app.Activity;
 import android.content.Context;
@@ -13,15 +13,21 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import estgf.ipp.pt.cmu.APIControllers.APIController;
+import estgf.ipp.pt.cmu.APIControllers.Routes;
+import estgf.ipp.pt.cmu.Entities.Result;
+import estgf.ipp.pt.cmu.Entities.ResultAdapter;
+import estgf.ipp.pt.cmu.Entities.ResultType;
+import estgf.ipp.pt.cmu.R;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GetIngredientResult_old extends AsyncTask<String, Integer, List<RecipeResult>> {
+public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Result>> {
 
     private Routes routes;
     private boolean ready;
-    private List<RecipeResult> list;
+    private List<Result> list;
     private WeakReference<Context> contextWeakReference;
     private ResultAdapter adapter;
     private ResultType type;
@@ -40,11 +46,11 @@ public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Rec
     }
 
     @Override
-    protected List<RecipeResult> doInBackground(String... strings) {
-        Call<List<RecipeResult>> call = routes.autocompleteIngredients(strings[0], 10);
-        call.enqueue(new Callback<List<RecipeResult>>() {
+    protected List<Result> doInBackground(String... strings) {
+        Call<List<Result>> call = routes.autocompleteIngredients(strings[0], 10);
+        call.enqueue(new Callback<List<Result>>() {
             @Override
-            public void onResponse(Call<List<RecipeResult>> call, Response<List<RecipeResult>> response) {
+            public void onResponse(Call<List<Result>> call, Response<List<Result>> response) {
                 list = response.body();
 
                 if (list.size() > 0) {
@@ -53,7 +59,7 @@ public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Rec
                         Context context = contextWeakReference.get();
                         if (context != null) {
                             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
-                            adapter.setList((ArrayList<RecipeResult>) list);
+                            adapter.setList((ArrayList<Result>) list);
                             RecyclerView recyclerView = ((Activity) context).findViewById(R.id.recyclerView);
                             recyclerView.setAdapter(adapter);
                             recyclerView.addItemDecoration(itemDecoration);
@@ -71,7 +77,7 @@ public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Rec
             }
 
             @Override
-            public void onFailure(Call<List<RecipeResult>> call, Throwable t) {
+            public void onFailure(Call<List<Result>> call, Throwable t) {
                 t.printStackTrace();
             }
         });
@@ -79,8 +85,8 @@ public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Rec
         return list;
     }
 
-    private void setType(List<RecipeResult> list) {
-        for (RecipeResult pos : list) {
+    private void setType(List<Result> list) {
+        for (Result pos : list) {
             pos.setType(type);
         }
     }

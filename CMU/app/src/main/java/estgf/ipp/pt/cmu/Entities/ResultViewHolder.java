@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.Entities;
 
         import android.media.Image;
         import android.support.annotation.NonNull;
@@ -6,6 +6,8 @@ package estgf.ipp.pt.cmu;
         import android.view.View;
         import android.widget.ImageView;
         import android.widget.TextView;
+
+        import estgf.ipp.pt.cmu.R;
 
 public class ResultViewHolder extends RecyclerView.ViewHolder {
 
