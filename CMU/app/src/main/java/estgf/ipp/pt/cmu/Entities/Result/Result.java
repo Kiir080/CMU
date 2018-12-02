@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu.Entities;
+package estgf.ipp.pt.cmu.Entities.Result;
 
 
 import android.graphics.drawable.Drawable;

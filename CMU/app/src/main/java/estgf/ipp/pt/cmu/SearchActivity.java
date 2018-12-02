@@ -9,13 +9,13 @@ import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import estgf.ipp.pt.cmu.Entities.ResultAdapter;
+import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
 import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
 import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
 import estgf.ipp.pt.cmu.old_Stuff.GetResults;
 
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class SearchActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
     private SearchView searchView;
     private ResultAdapter adapter;
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search);
 
         searchView = (SearchView) findViewById(R.id.search);
         searchView.setOnQueryTextListener(this);

@@ -2,7 +2,7 @@ package estgf.ipp.pt.cmu.APIControllers;
 
 import java.util.List;
 
-import estgf.ipp.pt.cmu.Entities.Result;
+import estgf.ipp.pt.cmu.Entities.Result.Result;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;

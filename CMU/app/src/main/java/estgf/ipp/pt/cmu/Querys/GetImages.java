@@ -3,7 +3,7 @@ package estgf.ipp.pt.cmu.Querys;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 
-import estgf.ipp.pt.cmu.Entities.Result;
+import estgf.ipp.pt.cmu.Entities.Result.Result;
 
 public class GetImages extends AsyncTask<Result,Integer,Drawable[]> {
 
