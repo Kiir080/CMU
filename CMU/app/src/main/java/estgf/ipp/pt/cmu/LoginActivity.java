@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this,WeeksMealPlan.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

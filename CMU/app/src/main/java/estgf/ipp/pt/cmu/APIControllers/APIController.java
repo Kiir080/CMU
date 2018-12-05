@@ -1,7 +1,5 @@
 package estgf.ipp.pt.cmu.APIControllers;
 
-
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
