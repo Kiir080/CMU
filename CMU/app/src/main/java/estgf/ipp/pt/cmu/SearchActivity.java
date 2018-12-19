@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
 import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
+import estgf.ipp.pt.cmu.Querys.GetProductsResult;
 import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
 import estgf.ipp.pt.cmu.old_Stuff.GetResults;
 
@@ -49,6 +50,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
       //  ingredients.execute(s,"Ingredients");
         GetIngredientsResult t= new GetIngredientsResult(this,adapter);
         GetRecipesResult x= new GetRecipesResult(this,adapter);
+        GetProductsResult y= new GetProductsResult(this,adapter);
 
         t.execute(s);
         x.execute(s);
