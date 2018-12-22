@@ -2,6 +2,8 @@ package estgf.ipp.pt.cmu.Entities.Result;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import estgf.ipp.pt.cmu.R;
+import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.RecyclerViewItemClickListener;
 import estgf.ipp.pt.cmu.Utilities.SearchLayoutManager;
 
@@ -22,13 +25,23 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
     private boolean isSet;
     private int EmptyResponseCount;
     private SearchLayoutManager searchLayoutManager;
+    private OnResultSelectedListener listener;
 
     public ResultAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
         this.isSet = false;
         this.EmptyResponseCount = 0;
-        this.searchLayoutManager = new SearchLayoutManager(R.id.loadingPanel, R.id.ErrorMessage, R.id.loadingBar, this.context);
+        this.searchLayoutManager = new SearchLayoutManager(R.id.loadingPanel,R.id.ErrorMessage,R.id.loadingBar, this.context);
+    }
+
+    public ResultAdapter(Context context,SearchLayoutManager searchLayoutManager,OnResultSelectedListener listener) {
+        this.context = context;
+        this.list = new ArrayList<>();
+        this.isSet = false;
+        this.EmptyResponseCount = 0;
+        this.searchLayoutManager = searchLayoutManager;
+        this.listener=listener;
     }
 
 
@@ -57,6 +70,9 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         resultViewHolder.setRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
             @Override
             public void onClick(View view, int position) {
+                FragmentManager x = ((AppCompatActivity) context).getSupportFragmentManager();
+                listener.onResultSelected(list.get(position));
+                x.popBackStack();
 
             }
         });
@@ -88,6 +104,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
     public void cleanList() {
         if (list != null) {
             list.clear();
+            EmptyResponseCount=0;
             isSet = false;
         }
     }
@@ -96,6 +113,7 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         this.EmptyResponseCount++;
         if (EmptyResponseCount >= 3) {
             this.searchLayoutManager.DisplayErrorMessage("Results Not Found");
+            EmptyResponseCount=0;
         }
     }
 }

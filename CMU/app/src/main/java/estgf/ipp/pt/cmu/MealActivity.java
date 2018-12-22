@@ -3,16 +3,29 @@ package estgf.ipp.pt.cmu;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MealActivity extends AppCompatActivity {
+import estgf.ipp.pt.cmu.Entities.Result.Result;
+import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
+
+public class MealActivity extends AppCompatActivity  implements OnResultSelectedListener {
+    private MealFragment mealFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
+
+        if(findViewById(R.id.fragmentPlaceholder)!=null){
+            if(savedInstanceState != null)
+                return;
+        }
+
+        mealFragment= new MealFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentPlaceholder,mealFragment).addToBackStack("root").commit();
+
+
     }
 
     @Override
@@ -29,5 +42,11 @@ public class MealActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onResultSelected(Result result) {
+        mealFragment.updateList(result);
     }
 }

@@ -2,6 +2,7 @@ package estgf.ipp.pt.cmu.Utilities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -19,9 +20,17 @@ public class SearchLayoutManager {
 
     public SearchLayoutManager(int relativeLayoutId, int errorMessageId, int loadingBarId,Context context) {
         this.context=context;
-        this.relativeLayout = ((Activity) this.context).findViewById(relativeLayoutId);
-        this.errorMessage = ((Activity) this.context).findViewById(errorMessageId);
-        this.loadingBar = ((Activity) this.context).findViewById(loadingBarId);
+        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        this.relativeLayout = rootView.findViewById(relativeLayoutId);
+        this.errorMessage = ((Activity) context).findViewById(errorMessageId);
+        this.loadingBar = ((Activity) context).findViewById(loadingBarId);
+    }
+
+    public SearchLayoutManager(RelativeLayout relativeLayout, TextView errorMessage, ProgressBar loadingBar,Context context) {
+        this.context=context;
+        this.relativeLayout = relativeLayout;
+        this.errorMessage = errorMessage;
+        this.loadingBar = loadingBar;
     }
 
     public void MakeLoadingPanelGone(){

@@ -11,7 +11,7 @@ public class APIController  {
 
     private static Retrofit retrofit;
     private static Gson gson;
-    private static final String BASE_URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/";
+    private static final String BASE_URL = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/";
     private static Routes routes;
 
     public static Routes getRoutes() {
