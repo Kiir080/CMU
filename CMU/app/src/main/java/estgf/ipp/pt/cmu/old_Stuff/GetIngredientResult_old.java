@@ -55,11 +55,11 @@ public class GetIngredientResult_old extends AsyncTask<String, Integer, List<Res
 
                 if (list.size() > 0) {
                     setType(list);
-                    if (!adapter.isSet()) {
+                    if (adapter.isSet()) {
                         Context context = contextWeakReference.get();
                         if (context != null) {
                             RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
-                            adapter.setList((ArrayList<Result>) list);
+                         //   adapter.setList((ArrayList<Result>) list);
                             RecyclerView recyclerView = ((Activity) context).findViewById(R.id.recyclerView);
                             recyclerView.setAdapter(adapter);
                             recyclerView.addItemDecoration(itemDecoration);

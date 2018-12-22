@@ -24,12 +24,10 @@ public class GetProductsResult {
 
     private Routes routes;
     private List<Result> list;
-    private WeakReference<Context> contextWeakReference;
     private ResultAdapter adapter;
     private final ResultType type = ResultType.Product;
 
-    public GetProductsResult(Context context, ResultAdapter adapter) {
-        this.contextWeakReference = new WeakReference<>(context);
+    public GetProductsResult(ResultAdapter adapter) {
         this.adapter = adapter;
         this.routes = APIController.getRoutes();
 
@@ -43,25 +41,20 @@ public class GetProductsResult {
             public void onResponse(Call<ResultList> call, Response<ResultList> response) {
                 ResultList temp = response.body();
 
-                if (temp != null && temp.getResults().size() >0) {
-                    list= temp.getResults();
+                if (temp != null && temp.getResults().size() > 0) {
+                    list = temp.getResults();
                     setType(list);
-                    if (!adapter.isSet()) {
-                        Context context = contextWeakReference.get();
-                        if (context != null) {
-                            adapter.setList((ArrayList<Result>) list);
-                            RelativeLayout relativeLayout = ((Activity) context).findViewById(R.id.loadingPanel);
-                            relativeLayout.setVisibility(View.GONE);
-                        }
-                    } else {
-                        adapter.addItems(list);
-                    }
+                    adapter.addItems(list);
+                } else {
+                    adapter.emptyResponse();
                 }
+
             }
 
             @Override
             public void onFailure(Call<ResultList> call, Throwable t) {
                 t.printStackTrace();
+                adapter.emptyResponse();
             }
 
         });

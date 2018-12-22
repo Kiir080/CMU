@@ -23,19 +23,17 @@ public class GetIngredientsResult {
 
     private Routes routes;
     private List<Result> list;
-    private WeakReference<Context> contextWeakReference;
     private ResultAdapter adapter;
-    private final ResultType type=ResultType.Ingredient;
+    private final ResultType type = ResultType.Ingredient;
 
-    public GetIngredientsResult(Context context, ResultAdapter adapter){
-        this.contextWeakReference=new WeakReference<>(context);
-        this.adapter=adapter;
-        this.routes=APIController.getRoutes();
+    public GetIngredientsResult(ResultAdapter adapter) {
+        this.adapter = adapter;
+        this.routes = APIController.getRoutes();
 
     }
 
 
-    public void execute(String query){
+    public void execute(String query) {
         Call<List<Result>> call = routes.autocompleteIngredients(query, 10);
         call.enqueue(new Callback<List<Result>>() {
             @Override
@@ -43,22 +41,17 @@ public class GetIngredientsResult {
                 list = response.body();
                 if (list.size() > 0) {
                     setType(list);
-                    if (!adapter.isSet()) {
-                        Context context = contextWeakReference.get();
-                        if (context != null) {
-                            adapter.setList((ArrayList<Result>) list);
-                            RelativeLayout relativeLayout = ((Activity) context).findViewById(R.id.loadingPanel);
-                            relativeLayout.setVisibility(View.GONE);
-                        }
-                    } else {
-                        adapter.addItems(list);
-                    }
+                    adapter.addItems(list);
+                } else {
+                    adapter.emptyResponse();
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<Result>> call, Throwable t) {
                 t.printStackTrace();
+                adapter.emptyResponse();
             }
 
         });
@@ -66,7 +59,7 @@ public class GetIngredientsResult {
 
 
     private void setType(List<Result> list) {
-        for ( Result pos :list) {
+        for (Result pos : list) {
             pos.setType(type);
         }
     }

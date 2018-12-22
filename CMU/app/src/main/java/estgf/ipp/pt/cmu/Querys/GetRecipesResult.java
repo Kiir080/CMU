@@ -23,12 +23,10 @@ public class GetRecipesResult {
 
     private Routes routes;
     private List<Result> list;
-    private WeakReference<Context> contextWeakReference;
     private ResultAdapter adapter;
     private final ResultType type = ResultType.Recipe;
 
-    public GetRecipesResult(Context context, ResultAdapter adapter) {
-        this.contextWeakReference = new WeakReference<>(context);
+    public GetRecipesResult(ResultAdapter adapter) {
         this.adapter = adapter;
         this.routes = APIController.getRoutes();
 
@@ -43,27 +41,21 @@ public class GetRecipesResult {
                 list = response.body();
                 if (list.size() > 0) {
                     setType(list);
-                    if (!adapter.isSet()) {
-                        Context context = contextWeakReference.get();
-                        if (context != null) {
-                            adapter.setList((ArrayList<Result>) list);
-                            RelativeLayout relativeLayout = ((Activity) context).findViewById(R.id.loadingPanel);
-                            relativeLayout.setVisibility(View.GONE);
-                        }
-                    } else {
-                        adapter.addItems(list);
-                    }
+                    adapter.addItems(list);
+                } else {
+                    adapter.emptyResponse();
                 }
+
             }
 
             @Override
             public void onFailure(Call<List<Result>> call, Throwable t) {
                 t.printStackTrace();
+                adapter.emptyResponse();
             }
 
         });
     }
-
 
     private void setType(List<Result> list) {
         for (Result pos : list) {
