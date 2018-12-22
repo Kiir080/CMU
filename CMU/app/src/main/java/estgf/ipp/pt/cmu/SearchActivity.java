@@ -44,6 +44,9 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String s) {
+        if(adapter.getItemCount() > 0){
+            adapter.cleanList();
+        }
         GetResults recipes = new GetResults(this,adapter);
        // GetResults ingredients = new GetResults(this,adapter);
         // GetResults products = new GetResults(this,adapter);
@@ -54,6 +57,7 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
         t.execute(s);
         x.execute(s);
+        y.execute(s);
 
         RelativeLayout temp = (RelativeLayout) findViewById(R.id.loadingPanel);
         temp.setVisibility(View.VISIBLE);

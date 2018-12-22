@@ -43,8 +43,8 @@ public class GetProductsResult {
             public void onResponse(Call<ResultList> call, Response<ResultList> response) {
                 ResultList temp = response.body();
 
-                if (temp != null && temp.getResult().size() >0) {
-                    list= temp.getResult();
+                if (temp != null && temp.getResults().size() >0) {
+                    list= temp.getResults();
                     setType(list);
                     if (!adapter.isSet()) {
                         Context context = contextWeakReference.get();
