@@ -13,6 +13,7 @@ import estgf.ipp.pt.cmu.APIControllers.APIController;
 import estgf.ipp.pt.cmu.APIControllers.Routes;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
+import estgf.ipp.pt.cmu.Entities.Result.ResultList;
 import estgf.ipp.pt.cmu.Entities.Result.ResultType;
 import estgf.ipp.pt.cmu.R;
 import retrofit2.Call;
@@ -36,12 +37,14 @@ public class GetProductsResult {
 
 
     public void execute(String query) {
-        Call<List<Result>> call = routes.autocompleteRecipes(query, 10);
-        call.enqueue(new Callback<List<Result>>() {
+        Call<ResultList> call = routes.autocompleteproducts(query, 10);
+        call.enqueue(new Callback<ResultList>() {
             @Override
-            public void onResponse(Call<List<Result>> call, Response<List<Result>> response) {
-                list = response.body();
-                if (list.size() > 0) {
+            public void onResponse(Call<ResultList> call, Response<ResultList> response) {
+                ResultList temp = response.body();
+
+                if (temp != null && temp.getResults().size() >0) {
+                    list= temp.getResults();
                     setType(list);
                     if (!adapter.isSet()) {
                         Context context = contextWeakReference.get();
@@ -57,7 +60,7 @@ public class GetProductsResult {
             }
 
             @Override
-            public void onFailure(Call<List<Result>> call, Throwable t) {
+            public void onFailure(Call<ResultList> call, Throwable t) {
                 t.printStackTrace();
             }
 

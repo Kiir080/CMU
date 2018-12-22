@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
 import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
+import estgf.ipp.pt.cmu.Querys.GetProductsResult;
 import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
 import estgf.ipp.pt.cmu.old_Stuff.GetResults;
 
@@ -43,15 +44,20 @@ public class SearchActivity extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextSubmit(String s) {
+        if(adapter.getItemCount() > 0){
+            adapter.cleanList();
+        }
         GetResults recipes = new GetResults(this,adapter);
        // GetResults ingredients = new GetResults(this,adapter);
         // GetResults products = new GetResults(this,adapter);
       //  ingredients.execute(s,"Ingredients");
         GetIngredientsResult t= new GetIngredientsResult(this,adapter);
         GetRecipesResult x= new GetRecipesResult(this,adapter);
+        GetProductsResult y= new GetProductsResult(this,adapter);
 
         t.execute(s);
         x.execute(s);
+        y.execute(s);
 
         RelativeLayout temp = (RelativeLayout) findViewById(R.id.loadingPanel);
         temp.setVisibility(View.VISIBLE);
