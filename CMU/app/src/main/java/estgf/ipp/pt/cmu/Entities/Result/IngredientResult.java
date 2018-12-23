@@ -7,7 +7,7 @@ public class IngredientResult  {
     private String name;
     private String unit;
     private int amount;
-    private List<NutrientResult> nutrients;
+    private NutrientsListResult nutrition;
     private String image;
 
     public String getImage() {
@@ -50,11 +50,12 @@ public class IngredientResult  {
         this.amount = amount;
     }
 
-    public List<NutrientResult> getNutrients() {
-        return nutrients;
+
+    public NutrientsListResult getNutrition() {
+        return nutrition;
     }
 
-    public void setNutrients(List<NutrientResult> nutrients) {
-        this.nutrients = nutrients;
+    public void setNutrition(NutrientsListResult nutrition) {
+        this.nutrition = nutrition;
     }
 }

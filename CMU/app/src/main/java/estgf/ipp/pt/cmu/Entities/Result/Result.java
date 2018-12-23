@@ -36,18 +36,7 @@ public class Result {
         this.title = title;
     }
 
-    @Nullable
-    public Drawable loadImage() {
-        try {
-            this.baseURLRecipe=this.baseURLRecipe.replace("{id}",String.valueOf(this.id));
-            InputStream is = (InputStream) new URL(this.baseURLRecipe).getContent();
-            Drawable d = Drawable.createFromStream(is, "useless");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
 
-    }
 
     public String getImage() {
         return image;

@@ -9,8 +9,11 @@ import estgf.ipp.pt.cmu.Entities.Result.RecipeResult;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
 import estgf.ipp.pt.cmu.Entities.Result.ResultList;
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -36,7 +39,10 @@ public interface Routes {
     @GET("/food/products/{id}")
     Call<ProductResult> getProductInformation(@Path(value = "id", encoded = true) int id);
 
+
+    //Endpoint Parse Ingredients
     @Headers({"X-Mashape-Key: bB6yVjQcU7mshGeZbh2nd501GPwvp1pG7eEjsngbv2qLVuX97i"})
-    @GET("/food/ingredients/{id}/information")
-    Call<IngredientResult> getIngredientInformation(@Path(value = "id", encoded = true) int id,@Query("amount") int amount,@Query("unit") String unit);
+    @FormUrlEncoded
+    @POST("/recipes/parseIngredients")
+    Call<List<IngredientResult>> getIngredientInformation(@Field("servings") int servings, @Field("ingredientList") String ingredientList, @Query("includeNutrition") boolean nutrition);
 }

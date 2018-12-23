@@ -15,22 +15,46 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import estgf.ipp.pt.cmu.Entities.Food.Food;
+import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
+import estgf.ipp.pt.cmu.Entities.Food.Product;
+import estgf.ipp.pt.cmu.Entities.Food.Recipe;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
+import estgf.ipp.pt.cmu.Entities.Result.IngredientResult;
+import estgf.ipp.pt.cmu.Entities.Result.ProductResult;
+import estgf.ipp.pt.cmu.Entities.Result.RecipeResult;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
+import estgf.ipp.pt.cmu.Querys.GetImages;
+import estgf.ipp.pt.cmu.Querys.GetIngredientInformation;
+import estgf.ipp.pt.cmu.Querys.GetProductInformation;
+import estgf.ipp.pt.cmu.Querys.GetRecipeInformation;
+import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
+import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 
 public class MealFragment extends Fragment implements View.OnClickListener {
     private Context context;
     private Meal meal;
     private FloatingActionButton button;
-    private ResultAdapterTeste adapter;
+    private FoodAdapter adapter;
+    private OnFoodSelectedListener listener;
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try{
+            listener=(OnFoodSelectedListener) context;
+        }catch (ClassCastException ex){
+            throw new ClassCastException(context.toString()+ "must implement OnCountrySelectedListener");
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context=getActivity();
 
-        this.adapter= new ResultAdapterTeste(context);
+        this.adapter= new FoodAdapter(context,listener);
 
     }
 
@@ -52,6 +76,8 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
     }
 
+
+
     public Meal getMeal() {
         return meal;
     }
@@ -69,6 +95,35 @@ public class MealFragment extends Fragment implements View.OnClickListener {
     }
 
     public void updateList(Result result){
-        this.adapter.addItem(result);
+        Food food = null;
+        GetImages getImages= null;
+        switch(result.getType()){
+            case Ingredient:
+                Ingredient ingredient = new Ingredient(result.id,result.name);
+                GetIngredientInformation getIngredientInformation = new GetIngredientInformation(ingredient);
+                getIngredientInformation.execute();
+                getImages= new GetImages(ingredient);
+                food=ingredient;
+                break;
+            case Recipe:
+                Recipe recipe = new Recipe(result.id,result.title);
+                GetRecipeInformation getRecipeInformation = new GetRecipeInformation(recipe);
+                getRecipeInformation.execute();
+                getImages = new GetImages(recipe);
+                food=recipe;
+                break;
+            case Product:
+                Product product = new Product(result.id,result.title);
+                GetProductInformation getProductInformation = new GetProductInformation(product);
+                getProductInformation.execute();
+                getImages = new GetImages(product);
+                food=product;
+                break;
+        }
+        getImages.execute();
+        this.adapter.addItem(food);
+
     }
+
+
 }

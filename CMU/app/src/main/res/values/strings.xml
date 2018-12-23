@@ -15,4 +15,12 @@
     </string>
     <string name="title_activity_weeks_meal_plan">WeeksMealPlan</string>
     <string name="title_activity_daily_meals">DailyMeals</string>
+    <string name="nutrition">Nutrition</string>
+    <string name="typeIngredient">Ingredient</string>
+    <string name="productType">Product</string>
+    <string name="recipeType">Recipe</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="Vegan">Vegan</string>
+    <string name="diary_free">Diary Free</string>
+    <string name="gluten_free">Gluten Free</string>
 </resources>

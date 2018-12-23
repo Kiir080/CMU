@@ -1,5 +1,7 @@
 package estgf.ipp.pt.cmu.Entities.Result;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import estgf.ipp.pt.cmu.Entities.Food.Nutrition;
@@ -8,8 +10,7 @@ public class ProductResult {
 
     private int id;
     private String title;
-    private Nutrition nutrition;
-    private String serving_size;
+    private NutritionResult nutrition;
     private List<String> images;
 
     public int getId() {
@@ -28,21 +29,14 @@ public class ProductResult {
         this.title = title;
     }
 
-    public Nutrition getNutrition() {
+    public NutritionResult getNutrition() {
         return nutrition;
     }
 
-    public void setNutrition(Nutrition nutrition) {
+    public void setNutrition(NutritionResult nutrition) {
         this.nutrition = nutrition;
     }
 
-    public String getServing_size() {
-        return serving_size;
-    }
-
-    public void setServing_size(String serving_size) {
-        this.serving_size = serving_size;
-    }
 
     public List<String> getImages() {
         return images;

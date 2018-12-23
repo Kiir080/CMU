@@ -1,49 +1,56 @@
 package estgf.ipp.pt.cmu.Entities.Food;
 
+import android.widget.Switch;
+
 import java.io.Serializable;
+import java.util.List;
+
+import estgf.ipp.pt.cmu.Entities.Result.NutrientResult;
 
 public class Nutrition implements Serializable {
-    private int calories;
-    private String fat;
-    private String protein;
-    private String carbs;
+    private float calories;
+    private float fat;
+    private float protein;
+    private float carbs;
+    private int allSet = 0;
 
-    public Nutrition(int calories, String fat, String protein, String carbs) {
+
+    public Nutrition(float calories, float fat, float protein, float carbs) {
         this.calories = calories;
         this.fat = fat;
         this.protein = protein;
         this.carbs = carbs;
     }
 
-    public int getCalories() {
+    public float getCalories() {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(float calories) {
         this.calories = calories;
     }
 
-    public String getFat() {
+    public float getFat() {
         return fat;
     }
 
-    public void setFat(String fat) {
+    public void setFat(float fat) {
         this.fat = fat;
     }
 
-    public String getProtein() {
+    public float getProtein() {
         return protein;
     }
 
-    public void setProtein(String protein) {
+    public void setProtein(float protein) {
         this.protein = protein;
     }
 
-    public String getCarbs() {
+    public float getCarbs() {
         return carbs;
     }
 
-    public void setCarbs(String carbs) {
+    public void setCarbs(float carbs) {
         this.carbs = carbs;
     }
 }

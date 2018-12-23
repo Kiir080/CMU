@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/ingredientName"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_marginStart="15dp"
+        />
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/ingredientImage"
+        android:layout_toEndOf="@+id/ingredientName"
+        android:layout_alignParentEnd="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/ingredientNutrition"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/ingredientType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/typeIngredient"
+        android:layout_below="@+id/ingredientName"
+        android:textSize="20sp"
+        android:layout_marginStart="15dp"/>
+
+    <TextView
+        android:id="@+id/ingredientAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/ingredientType"
+       />
+
+    <TextView
+        android:id="@+id/ingredientUnit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:layout_below="@+id/ingredientType"
+
+        android:layout_toEndOf="@id/ingredientAmount"
+        android:layout_margin="20dp"
+        android:layout_marginStart="15dp"
+       />
+
+
+    <TextView
+        android:id="@+id/ingredientNutrition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrition"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/ingredientAmount"
+        android:layout_marginStart="10dp"/>
+
+    <include layout="@layout/nutrition_content_layout" android:layout_below="@+id/ingredientNutrition" android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+
+
+
+</RelativeLayout>

@@ -5,7 +5,7 @@ public class RecipeResult {
     private boolean vegetarian;
     private boolean vegan;
     private boolean glutenFree;
-    private String diaryFree;
+    private boolean dairyFree;
     private String title;
     private String image;
     private NutrientsListResult nutrition;
@@ -58,12 +58,12 @@ public class RecipeResult {
         this.glutenFree = glutenFree;
     }
 
-    public String getDiaryFree() {
-        return diaryFree;
+    public boolean isDairyFree() {
+        return dairyFree;
     }
 
-    public void setDiaryFree(String diaryFree) {
-        this.diaryFree = diaryFree;
+    public void setDairyFree(boolean dairyFree) {
+        this.dairyFree = dairyFree;
     }
 
     public String getTitle() {

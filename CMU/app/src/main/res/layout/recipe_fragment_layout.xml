@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/recipeTitle"
+        android:layout_width="200sp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:layout_marginStart="15dp"
+        />
+
+    <TextView
+        android:id="@+id/recipeType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/recipeType"
+        android:layout_below="@+id/recipeTitle"
+        android:textSize="20sp"
+        android:layout_marginStart="15dp"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/recipeImage"
+        android:layout_toEndOf="@+id/recipeTitle"
+        android:layout_alignParentEnd="true"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/recipeNutrition"
+        android:layout_margin="10dp"
+        android:scaleType="fitXY"/>
+
+  <LinearLayout
+      android:id="@+id/recipeTags"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:layout_below="@+id/recipeType">
+      <TextView
+          android:id="@+id/Vegetarian"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:background="@color/green"
+          android:text="@string/vegetarian"
+          android:visibility="gone"
+          android:padding="10dp"
+          android:layout_margin="10dp"/>
+
+      <TextView
+          android:id="@+id/Vegan"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:background="@color/colorAccent"
+          android:text="@string/Vegan"
+          android:visibility="gone"
+          android:padding="10dp"
+          android:layout_margin="10dp"/>
+      <TextView
+          android:id="@+id/diaryFree"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:background="@color/orange"
+          android:text="@string/diary_free"
+          android:visibility="gone"
+          android:padding="10dp"
+          android:layout_margin="10dp"/>
+      <TextView
+          android:id="@+id/glutenFree"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="@color/white"
+          android:background="@color/blue"
+          android:text="@string/gluten_free"
+          android:visibility="gone"
+          android:padding="10dp"
+          android:layout_margin="10dp"/>
+
+
+  </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/recipeNutrition"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/nutrition"
+        android:textSize="45sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/recipeTags"
+        android:layout_marginStart="10dp"/>
+
+    <include layout="@layout/nutrition_content_layout" android:layout_below="@+id/recipeNutrition" android:layout_width="match_parent" android:layout_height="wrap_content" />
+
+
+
+</RelativeLayout>

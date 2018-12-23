@@ -8,7 +8,12 @@ public class Ingredient extends Food implements Serializable {
     private String name;
     private String unit;
     private int amount;
+    private static String baseUrl="https://spoonacular.com/cdn/ingredients_250x250/{name}.jpg";
 
+    public Ingredient(int id,String name){
+        super(id,null,baseUrl.replace("{name}",name));
+        this.name = name;
+    }
 
     public Ingredient(int id, String name, String unit, int amount, Nutrition nutrition,String imagePath) {
         super(id,nutrition,imagePath);

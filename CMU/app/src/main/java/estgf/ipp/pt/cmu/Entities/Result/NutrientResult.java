@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class NutrientResult implements Serializable {
     private String title;
-    private int amount;
+    private Float amount;
     private String unit;
-    private String percentOfDailyNeeds;
+    private Float percentOfDailyNeeds;
 
     public String getTitle() {
         return title;
@@ -16,11 +16,11 @@ public class NutrientResult implements Serializable {
         this.title = title;
     }
 
-    public int getAmount() {
+    public Float getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(Float amount) {
         this.amount = amount;
     }
 
@@ -32,11 +32,11 @@ public class NutrientResult implements Serializable {
         this.unit = unit;
     }
 
-    public String getPercentOfDailyNeeds() {
+    public Float getPercentOfDailyNeeds() {
         return percentOfDailyNeeds;
     }
 
-    public void setPercentOfDailyNeeds(String percentOfDailyNeeds) {
+    public void setPercentOfDailyNeeds(Float percentOfDailyNeeds) {
         this.percentOfDailyNeeds = percentOfDailyNeeds;
     }
 }

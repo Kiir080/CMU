@@ -4,14 +4,17 @@ import java.io.Serializable;
 
 public class Product extends Food implements Serializable {
     private String title;
-    private String servingSize;
 
+    private static String baseUrl="https://spoonacular.com/productImages/{id}-312x231.jpg";
 
+    public Product(int id,String title){
+        super(id,null,baseUrl.replace("{id}",Integer.toString(id)));
+        this.title = title;
+    }
 
-    public Product(int id, String title, String servingSize, Nutrition nutrition,String imagePath) {
+    public Product(int id, String title, Nutrition nutrition,String imagePath) {
         super(id,nutrition,imagePath);
         this.title = title;
-        this.servingSize = servingSize;
 
     }
 
@@ -23,13 +26,6 @@ public class Product extends Food implements Serializable {
         this.title = title;
     }
 
-    public String getServingSize() {
-        return servingSize;
-    }
-
-    public void setServingSize(String servingSize) {
-        this.servingSize = servingSize;
-    }
 
 
 }
