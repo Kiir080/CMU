@@ -31,7 +31,7 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
         }
 
         mealFragment= new MealFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentPlaceholder,mealFragment).addToBackStack("root").commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentPlaceholder,mealFragment).commit();
 
 
     }
