@@ -38,8 +38,8 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsViewHolder>  {
     @Override
     public void onBindViewHolder(@NonNull MealsViewHolder mealsViewHolder, int i) {
         Meal temp = list.get(i);
-        mealsViewHolder.Meal.setText(temp.Name);
-        mealsViewHolder.Time.setText("12:30");
+        mealsViewHolder.Meal.setText(temp.getName());
+        mealsViewHolder.Time.setText(temp.getTime());
 
     }
 

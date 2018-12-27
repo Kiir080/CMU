@@ -65,7 +65,6 @@ public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelect
          list.add(new WeeksDays(today));
          today.add(Calendar.DAY_OF_MONTH,1);
 
-
         }
 
 
@@ -75,6 +74,7 @@ public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelect
     @Override
     public void onWeeksDaySelected(WeeksDays weeksDay) {
         Intent intent = new Intent(context,DailyMeals.class);
+        intent.putExtra("meals",(ArrayList<Meal>)weeksDay.getMeals());
         startActivity(intent);
     }
 }

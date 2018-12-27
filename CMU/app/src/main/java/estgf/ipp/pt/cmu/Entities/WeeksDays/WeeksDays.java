@@ -3,6 +3,7 @@ package estgf.ipp.pt.cmu.Entities.WeeksDays;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,31 +19,10 @@ public class WeeksDays {
 
     public WeeksDays(Calendar date) {
         this.date = date;
-        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        dateFormat= format.format(date.getTime());
-        switch(date.get(Calendar.DAY_OF_WEEK)){
-            case 1:
-                dayOfWeek="Sunday";
-                break;
-            case 2:
-                dayOfWeek="Monday";
-                break;
-            case 3:
-                dayOfWeek="Tuesday";
-                break;
-            case 4:
-                dayOfWeek="Wednesday";
-                break;
-            case 5:
-                dayOfWeek="Thursday";
-                break;
-            case 6:
-                dayOfWeek="Friday";
-                break;
-            case 7:
-                dayOfWeek="Saturday";
-                break;
-        }
+        this.meals= new ArrayList<>();
+        initializeDate();
+        generateListOfMeals();
+
 
 
     }
@@ -93,5 +73,62 @@ public class WeeksDays {
 
     public void setCaloriesEaten(int caloriesEaten) {
         this.caloriesEaten = caloriesEaten;
+    }
+
+    private void generateListOfMeals(){
+        Calendar hourBreakfast = Calendar.getInstance();
+        hourBreakfast.set(Calendar.HOUR_OF_DAY,8);
+        hourBreakfast.set(Calendar.MINUTE,30);
+
+        Calendar hourSnack = Calendar.getInstance();
+        hourSnack.set(Calendar.HOUR_OF_DAY,10);
+        hourSnack.set(Calendar.MINUTE,30);
+
+        Calendar hourLunch = Calendar.getInstance();
+        hourLunch.set(Calendar.HOUR_OF_DAY,13);
+        hourLunch.set(Calendar.MINUTE,30);
+
+        Calendar hourAfLunch = Calendar.getInstance();
+        hourAfLunch.set(Calendar.HOUR_OF_DAY,16);
+        hourAfLunch.set(Calendar.MINUTE,30);
+
+        Calendar hourDinner = Calendar.getInstance();
+        hourDinner.set(Calendar.HOUR_OF_DAY,20);
+        hourDinner.set(Calendar.MINUTE,0);
+
+
+        meals.add(new Meal("Breakfast",hourBreakfast));
+        meals.add(new Meal("Snack",hourSnack));
+        meals.add(new Meal("Lunch",hourLunch));
+        meals.add(new Meal("Afternoon Lunch",hourAfLunch));
+        meals.add(new Meal("Dinner",hourDinner));
+    }
+
+    private void initializeDate(){
+        DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat= format.format(date.getTime());
+        switch(date.get(Calendar.DAY_OF_WEEK)){
+            case 1:
+                dayOfWeek="Sunday";
+                break;
+            case 2:
+                dayOfWeek="Monday";
+                break;
+            case 3:
+                dayOfWeek="Tuesday";
+                break;
+            case 4:
+                dayOfWeek="Wednesday";
+                break;
+            case 5:
+                dayOfWeek="Thursday";
+                break;
+            case 6:
+                dayOfWeek="Friday";
+                break;
+            case 7:
+                dayOfWeek="Saturday";
+                break;
+        }
     }
 }

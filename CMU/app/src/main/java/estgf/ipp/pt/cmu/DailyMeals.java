@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
@@ -42,12 +43,7 @@ public class DailyMeals extends AppCompatActivity {
         });
 
 
-        ArrayList<Meal> list = new ArrayList<Meal>();
-        list.add(new Meal("Breakfast"));
-        list.add(new Meal("Snack"));
-        list.add(new Meal("Lunch"));
-        list.add(new Meal("Afternoon Lunch"));
-        list.add(new Meal("Dinner"));
+        ArrayList<Meal> list = (ArrayList<Meal>)getIntent().getSerializableExtra("meals");
         this.adapter = new MealsAdapter(this, list);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
