@@ -11,6 +11,14 @@
         android:textStyle="bold"
         android:layout_alignParentStart="true"
         />
+    <TextView
+        android:id="@+id/dateFormat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textView_row_layout_weeks_meal_plan"
+        />
 
     <TextView
         android:layout_width="wrap_content"

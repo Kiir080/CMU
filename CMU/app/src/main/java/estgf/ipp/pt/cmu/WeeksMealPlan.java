@@ -14,13 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
-import estgf.ipp.pt.cmu.Entities.WeeksDays.WeeksDaysAdapter;
+import estgf.ipp.pt.cmu.Entities.Meal.Meal;
+import estgf.ipp.pt.cmu.Entities.WeeksDays.*;
+import estgf.ipp.pt.cmu.Utilities.OnWeeksDaySelectedListener;
 
-public class WeeksMealPlan extends AppCompatActivity {
+public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelectedListener {
 
     private WeeksDaysAdapter adapter;
     private Context context=this;
+    private List<WeeksDays> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,38 +37,12 @@ public class WeeksMealPlan extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        this.adapter= new WeeksDaysAdapter(this);
+        list = new ArrayList<>();
+        generateWeeksDays();
+        this.adapter= new WeeksDaysAdapter(this,list,this);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = findViewById(R.id.recyclerView_Weeks_Meal_Plan);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-
-            private GestureDetector mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            });
-
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                if(mGestureDetector.onTouchEvent(motionEvent)) {
-                    Intent intent = new Intent(context, DailyMeals.class);
-                    startActivity(intent);
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-
-            }
-        });
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(itemDecoration);
 
@@ -68,4 +50,31 @@ public class WeeksMealPlan extends AppCompatActivity {
 
     }
 
+    private void generateWeeksDays(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar today = Calendar.getInstance();
+        Calendar oneMonthAdded = Calendar.getInstance();
+        oneMonthAdded.set(Calendar.DAY_OF_WEEK,1);
+        oneMonthAdded.add(Calendar.MONTH,1);
+        oneMonthAdded.set(Calendar.DAY_OF_WEEK,7);
+
+        today.set(Calendar.DAY_OF_WEEK,1);
+
+        while(today.compareTo(oneMonthAdded) <= 0){
+
+         list.add(new WeeksDays(today));
+         today.add(Calendar.DAY_OF_MONTH,1);
+
+
+        }
+
+
+
+    }
+
+    @Override
+    public void onWeeksDaySelected(WeeksDays weeksDay) {
+        Intent intent = new Intent(context,DailyMeals.class);
+        startActivity(intent);
+    }
 }
