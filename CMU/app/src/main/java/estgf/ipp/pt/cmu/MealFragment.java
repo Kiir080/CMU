@@ -1,6 +1,7 @@
 package estgf.ipp.pt.cmu;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import estgf.ipp.pt.cmu.Entities.Food.Food;
@@ -44,6 +47,7 @@ public class MealFragment extends Fragment implements View.OnClickListener,OnFoo
     private TextView guidelines;
     private TextView recommendeCalories;
     private TextView eatedCalories;
+    private ImageButton cameraButton;
 
     @Override
     public void onAttach(Context context) {
@@ -84,7 +88,8 @@ public class MealFragment extends Fragment implements View.OnClickListener,OnFoo
         guidelines= view.findViewById(R.id.guideLines);
         recommendeCalories=view.findViewById(R.id.textView_recommended_calories);
         eatedCalories=view.findViewById(R.id.textView_eaten_calories);
-
+        cameraButton= view.findViewById(R.id.camera_button);
+        cameraButton.setOnClickListener(this);
 
         this.recommendeCalories.setText(getString(R.string.recomended_calories,meal.RecommendedCalories()));
         this.guidelines.setText(meal.getGuidelines());
@@ -117,10 +122,16 @@ public class MealFragment extends Fragment implements View.OnClickListener,OnFoo
 
     @Override
     public void onClick(View v) {
-        FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentPlaceholder, new SearchFragment());
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
+        if(v.getId()==R.id.addFoodButton){
+            FragmentTransaction fragmentTransaction = ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragmentPlaceholder, new SearchFragment());
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        }else{
+            Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+            startActivity(intent);
+        }
+
     }
 
     public void updateMeal(Meal meal){

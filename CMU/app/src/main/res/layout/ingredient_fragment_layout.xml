@@ -45,9 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:layout_below="@+id/ingredientType"
-
-        android:layout_toEndOf="@id/ingredientAmount"
+        android:layout_below="@+id/ingredientAmount"
         android:layout_margin="20dp"
         android:layout_marginStart="15dp"
        />
@@ -60,10 +58,10 @@
         android:text="@string/nutrition"
         android:textSize="45sp"
         android:textStyle="bold"
-        android:layout_below="@+id/ingredientAmount"
+        android:layout_below="@+id/ingredientUnit"
         android:layout_marginStart="10dp"/>
 
-    <include layout="@layout/nutrition_content_layout" android:layout_below="@+id/ingredientNutrition" android:layout_width="match_parent" android:layout_height="wrap_content" />
+    <include layout="@layout/nutrition_content_layout" android:layout_marginStart="10dp" android:layout_below="@+id/ingredientNutrition" android:layout_width="match_parent" android:layout_height="wrap_content" />
 
 
 

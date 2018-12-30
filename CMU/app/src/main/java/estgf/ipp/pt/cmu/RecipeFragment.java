@@ -70,10 +70,10 @@ public class RecipeFragment extends Fragment {
            this.vegan.setVisibility(View.VISIBLE);
        }
         name.setText(recipe.getTitle());
-        cal.setText(String.valueOf(recipe.getNutrition().getCalories()));
-        carbs.setText(String.valueOf(recipe.getNutrition().getCarbs()));
-        prot.setText(String.valueOf(recipe.getNutrition().getProtein()));
-        fat.setText(String.valueOf(recipe.getNutrition().getFat()));
+        cal.setText(getString(R.string.calories,recipe.getNutrition().getCalories()));
+        carbs.setText(getString(R.string.carbs,recipe.getNutrition().getCarbs()));
+        prot.setText(getString(R.string.protein,recipe.getNutrition().getProtein()));
+        fat.setText(getString(R.string.fat,recipe.getNutrition().getFat()));
         imageView.setImageDrawable(recipe.getImage());
 
     }

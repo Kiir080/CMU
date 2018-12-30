@@ -53,6 +53,14 @@
     <string name="gender_1_s">Gender: %1$s</string>
     <string name="max_daily_calories_1_d">Max Daily Calories: %1$d kcal</string>
     <string name="username_1_s">Username: %1$s</string>
+    <string name="take_a_photo_to_your_food">Take a photo to your food !!</string>
+    <string name="name">Name: %1$s</string>
+    <string name="amount">Amount: %1$d</string>
+    <string name="unit">Unit: %1$s</string>
+    <string name="calories">Calories: %1$.2f kcal</string>
+    <string name="carbs">Carbs: %1$.2f</string>
+    <string name="protein">Protein: %1$.2f</string>
+    <string name="fat">Fat: %1$.2f</string>
 
     <string-array name="activity_array">
         <item>Sedentary</item>

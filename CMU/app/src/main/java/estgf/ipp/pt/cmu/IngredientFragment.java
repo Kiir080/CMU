@@ -54,12 +54,12 @@ public class IngredientFragment extends Fragment {
 
     private void mapData(){
         name.setText(ingredient.getName());
-        amount.setText(String.valueOf(ingredient.getAmount()));
-        unit.setText(ingredient.getUnit());
-        cal.setText(String.valueOf(ingredient.getNutrition().getCalories()));
-        carbs.setText(String.valueOf(ingredient.getNutrition().getCarbs()));
-        prot.setText(String.valueOf(ingredient.getNutrition().getProtein()));
-        fat.setText(String.valueOf(ingredient.getNutrition().getFat()));
+        amount.setText(getString(R.string.amount,ingredient.getAmount()));
+        unit.setText(getString(R.string.unit,ingredient.getUnit()));
+        cal.setText(getString(R.string.calories,ingredient.getNutrition().getCalories()));
+        carbs.setText(getString(R.string.carbs,ingredient.getNutrition().getCarbs()));
+        prot.setText(getString(R.string.protein,ingredient.getNutrition().getProtein()));
+        fat.setText(getString(R.string.fat,ingredient.getNutrition().getFat()));
         imageView.setImageDrawable(ingredient.getImage());
 
     }

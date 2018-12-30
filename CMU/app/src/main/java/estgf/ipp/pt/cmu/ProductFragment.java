@@ -49,11 +49,10 @@ public class ProductFragment extends Fragment {
 
     private void mapData(){
         name.setText(product.getTitle());
-
-        cal.setText(String.valueOf(product.getNutrition().getCalories()));
-        carbs.setText(String.valueOf(product.getNutrition().getCarbs()));
-        prot.setText(String.valueOf(product.getNutrition().getProtein()));
-        fat.setText(String.valueOf(product.getNutrition().getFat()));
+        cal.setText(getString(R.string.calories,product.getNutrition().getCalories()));
+        carbs.setText(getString(R.string.carbs,product.getNutrition().getCarbs()));
+        prot.setText(getString(R.string.protein,product.getNutrition().getProtein()));
+        fat.setText(getString(R.string.fat,product.getNutrition().getFat()));
         imageView.setImageDrawable(product.getImage());
 
     }

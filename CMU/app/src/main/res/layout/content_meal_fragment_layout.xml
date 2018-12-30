@@ -48,7 +48,7 @@
         android:src="@drawable/ic_camera_button"
         android:layout_alignParentEnd="true"
         android:layout_above="@+id/textView_recommended_calories"
-        />
+        android:contentDescription="@string/take_a_photo_to_your_food" />
 
     <TextView
         android:layout_width="wrap_content"
