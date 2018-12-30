@@ -1,5 +1,7 @@
 package estgf.ipp.pt.cmu.Entities.Food;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.widget.Switch;
 
 import java.io.Serializable;
@@ -7,6 +9,7 @@ import java.util.List;
 
 import estgf.ipp.pt.cmu.Entities.Result.NutrientResult;
 
+@Entity
 public class Nutrition implements Serializable {
     private float calories;
     private float fat;
@@ -21,6 +24,7 @@ public class Nutrition implements Serializable {
         this.protein = protein;
         this.carbs = carbs;
     }
+
 
     public float getCalories() {
         return calories;

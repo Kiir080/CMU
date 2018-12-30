@@ -7,18 +7,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import estgf.ipp.pt.cmu.Database.Controllers.DBController;
+import estgf.ipp.pt.cmu.Entities.Food.Food;
 import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
 import estgf.ipp.pt.cmu.Entities.Food.Product;
 import estgf.ipp.pt.cmu.Entities.Food.Recipe;
+import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
+import estgf.ipp.pt.cmu.Utilities.NotifyGetFoodInformation;
 import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 
-public class MealActivity extends AppCompatActivity  implements OnResultSelectedListener, OnFoodSelectedListener {
+public class MealActivity extends AppCompatActivity  implements OnResultSelectedListener, OnFoodSelectedListener , NotifyGetFoodInformation {
     private MealFragment mealFragment;
     private IngredientFragment ingredientFragment;
     private ProductFragment productFragment;
     private RecipeFragment recipeFragment;
+    private Meal meal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +34,12 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
             if(savedInstanceState != null)
                 return;
         }
+        meal = (Meal) getIntent().getSerializableExtra("meal");
+
 
         mealFragment= new MealFragment();
+        mealFragment.updateMeal(meal);
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentPlaceholder,mealFragment).commit();
-
-
     }
 
     @Override
@@ -55,6 +61,7 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
 
     @Override
     public void onResultSelected(Result result) {
+
         mealFragment.updateList(result);
     }
 
@@ -87,5 +94,12 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
         fragmentTransaction.replace(R.id.fragmentPlaceholder,recipeFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void OnGetFoodInformation(Food food) {
+        this.meal.getFoodList().add(food);
+        DBController dbController = new DBController(this);
+        dbController.update(this.meal);
     }
 }

@@ -3,43 +3,55 @@ package estgf.ipp.pt.cmu;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
-import android.view.View;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import estgf.ipp.pt.cmu.Database.Controllers.DBController;
+import estgf.ipp.pt.cmu.Database.Interfaces.NotifyGetMeals;
+import estgf.ipp.pt.cmu.Database.Interfaces.NotifyGetWeeksDays;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Entities.WeeksDays.*;
 import estgf.ipp.pt.cmu.Utilities.OnWeeksDaySelectedListener;
 
-public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelectedListener {
+public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelectedListener,NotifyGetMeals,NotifyGetWeeksDays {
 
     private WeeksDaysAdapter adapter;
     private Context context=this;
     private List<WeeksDays> list;
+    private DBController dbController;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        dbController = new DBController(this);
+       // dbController.clearTables();
+        dbController.getWeeksDays(this);
+
         setContentView(R.layout.activity_weeks_meal_plan);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        list = new ArrayList<>();
-        generateWeeksDays();
-        this.adapter= new WeeksDaysAdapter(this,list,this);
+
+
+        // dbController.getWeeksDays();
+        //dbController.getMeals();
+
+
+
+
+
+
+        this.adapter= new WeeksDaysAdapter(this,this);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = findViewById(R.id.recyclerView_Weeks_Meal_Plan);
@@ -73,8 +85,28 @@ public class WeeksMealPlan extends AppCompatActivity implements OnWeeksDaySelect
 
     @Override
     public void onWeeksDaySelected(WeeksDays weeksDay) {
+        dbController.getMeals(this, (long) weeksDay.getId());
+    }
+
+    @Override
+    public void OnGetMeals(List<Meal> list) {
         Intent intent = new Intent(context,DailyMeals.class);
-        intent.putExtra("meals",(ArrayList<Meal>)weeksDay.getMeals());
+        intent.putExtra("meals",(ArrayList<Meal>)list);
         startActivity(intent);
+    }
+
+    @Override
+    public void OnGetWeeksDays(List<WeeksDays> list) {
+        if(list == null || list.size()==0){
+            this.list = new ArrayList<>();
+            generateWeeksDays();
+
+            WeeksDays a[]= new WeeksDays[this.list.size()];
+            dbController.insert(this.list.toArray(a));
+            dbController.getWeeksDays(this);
+        }else{
+            this.adapter.addItems(list);
+            this.list=list;
+        }
     }
 }

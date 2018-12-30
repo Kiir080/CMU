@@ -11,12 +11,12 @@ public class Ingredient extends Food implements Serializable {
     private static String baseUrl="https://spoonacular.com/cdn/ingredients_250x250/{name}.jpg";
 
     public Ingredient(int id,String name){
-        super(id,null,baseUrl.replace("{name}",name));
+        super(id,null,baseUrl.replace("{name}",name),"ingredient");
         this.name = name;
     }
 
     public Ingredient(int id, String name, String unit, int amount, Nutrition nutrition,String imagePath) {
-        super(id,nutrition,imagePath);
+        super(id,nutrition,imagePath,"ingredient");
         this.name = name;
         this.unit = unit;
         this.amount = amount;

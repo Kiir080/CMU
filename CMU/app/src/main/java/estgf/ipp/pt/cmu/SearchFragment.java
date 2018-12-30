@@ -19,15 +19,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
-import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
-import estgf.ipp.pt.cmu.Querys.GetProductsResult;
-import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
-import estgf.ipp.pt.cmu.R;
+import estgf.ipp.pt.cmu.API.Querys.GetIngredientsResult;
+import estgf.ipp.pt.cmu.API.Querys.GetProductsResult;
+import estgf.ipp.pt.cmu.API.Querys.GetRecipesResult;
 import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.SearchLayoutManager;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
-import static android.content.Context.SEARCH_SERVICE;
 
 public class SearchFragment extends Fragment implements SearchView.OnQueryTextListener {
 

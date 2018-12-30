@@ -10,9 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
-import estgf.ipp.pt.cmu.Querys.GetIngredientsResult;
-import estgf.ipp.pt.cmu.Querys.GetProductsResult;
-import estgf.ipp.pt.cmu.Querys.GetRecipesResult;
+import estgf.ipp.pt.cmu.API.Querys.GetIngredientsResult;
+import estgf.ipp.pt.cmu.API.Querys.GetProductsResult;
+import estgf.ipp.pt.cmu.API.Querys.GetRecipesResult;
 import estgf.ipp.pt.cmu.Utilities.SearchLayoutManager;
 
 

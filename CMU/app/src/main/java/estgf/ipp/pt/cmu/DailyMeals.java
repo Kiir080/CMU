@@ -18,10 +18,13 @@ import android.view.View;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import estgf.ipp.pt.cmu.Database.Controllers.DBController;
+import estgf.ipp.pt.cmu.Database.Controllers.NotifyGetMeal;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Entities.Meal.MealsAdapter;
+import estgf.ipp.pt.cmu.Utilities.OnMealSelectedListener;
 
-public class DailyMeals extends AppCompatActivity {
+public class DailyMeals extends AppCompatActivity implements OnMealSelectedListener,NotifyGetMeal {
 
     private MealsAdapter adapter;
     private Context context = this;
@@ -44,37 +47,10 @@ public class DailyMeals extends AppCompatActivity {
 
 
         ArrayList<Meal> list = (ArrayList<Meal>)getIntent().getSerializableExtra("meals");
-        this.adapter = new MealsAdapter(this, list);
+        this.adapter = new MealsAdapter(this, list,this);
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = findViewById(R.id.recyclerView_Daily_Meals);
-
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-
-            private GestureDetector mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            });
-
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-                if (mGestureDetector.onTouchEvent(motionEvent)) {
-                    Intent intent = new Intent(context, MealActivity.class);
-                    startActivity(intent);
-                }
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView recyclerView, @NonNull MotionEvent motionEvent) {
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean b) {
-            }
-        });
 
         recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(itemDecoration);
@@ -82,4 +58,16 @@ public class DailyMeals extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
+    public void onMealSelected(Meal meal) {
+        DBController dbController = new DBController(this);
+        dbController.getMeal(this,meal.getId());
+    }
+
+    @Override
+    public void GetMeal(Meal meal) {
+        Intent intent = new Intent(context, MealActivity.class);
+        intent.putExtra("meal",meal);
+        startActivity(intent);
+    }
 }

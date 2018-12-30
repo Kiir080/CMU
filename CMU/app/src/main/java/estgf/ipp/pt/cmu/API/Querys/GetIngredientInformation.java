@@ -1,29 +1,34 @@
-package estgf.ipp.pt.cmu.Querys;
+package estgf.ipp.pt.cmu.API.Querys;
+
+import android.content.Context;
 
 import java.util.List;
 
-import estgf.ipp.pt.cmu.APIControllers.APIController;
-import estgf.ipp.pt.cmu.APIControllers.Routes;
+import estgf.ipp.pt.cmu.API.Controllers.APIController;
+import estgf.ipp.pt.cmu.API.Routes;
+import estgf.ipp.pt.cmu.Database.Controllers.DBController;
 import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
-import estgf.ipp.pt.cmu.Entities.Food.Nutrition;
 import estgf.ipp.pt.cmu.Entities.Result.IngredientResult;
-import estgf.ipp.pt.cmu.Entities.Result.Result;
-import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
-import estgf.ipp.pt.cmu.Entities.Result.ResultType;
+import estgf.ipp.pt.cmu.SaveCurrentMeal;
+import estgf.ipp.pt.cmu.Utilities.NotifyGetFoodInformation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class GetIngredientInformation {
 
+    private final NotifyGetFoodInformation notifyGetFoodInformation;
+    private Context context;
     private Routes routes;
     private IngredientResult ingredientResult;
     private Ingredient ingredient;
 
 
-    public GetIngredientInformation(Ingredient ingredient) {
+    public GetIngredientInformation(Ingredient ingredient, NotifyGetFoodInformation notifyGetFoodInformation) {
         this.routes = APIController.getRoutes();
         this.ingredient = ingredient;
+        this.notifyGetFoodInformation=notifyGetFoodInformation;
+
 
     }
 
@@ -39,6 +44,8 @@ public class GetIngredientInformation {
                     ingredient.setUnit(ingredientResult.getUnit());
                     ingredient.setNutrition(ingredientResult.getNutrition().getNutrients());
                     ingredient.setId(ingredientResult.getId());
+
+                    notifyGetFoodInformation.OnGetFoodInformation(ingredient);
                 }
 
             }

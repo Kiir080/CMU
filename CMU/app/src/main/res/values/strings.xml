@@ -23,4 +23,7 @@
     <string name="Vegan">Vegan</string>
     <string name="diary_free">Diary Free</string>
     <string name="gluten_free">Gluten Free</string>
+    <string name="recomended_calories">Recommended Calories: %1$s kcal</string>
+    <string name="meal_time">%1$sh</string>
+
 </resources>

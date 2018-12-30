@@ -8,12 +8,12 @@ public class Product extends Food implements Serializable {
     private static String baseUrl="https://spoonacular.com/productImages/{id}-312x231.jpg";
 
     public Product(int id,String title){
-        super(id,null,baseUrl.replace("{id}",Integer.toString(id)));
+        super(id,null,baseUrl.replace("{id}",Integer.toString(id)),"product");
         this.title = title;
     }
 
     public Product(int id, String title, Nutrition nutrition,String imagePath) {
-        super(id,nutrition,imagePath);
+        super(id,nutrition,imagePath,"product");
         this.title = title;
 
     }
@@ -27,5 +27,11 @@ public class Product extends Food implements Serializable {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Product{" +
+                "title='" + title + '\'' +
+                ", type='" + type1 + '\'' +
+                '}';
+    }
 }

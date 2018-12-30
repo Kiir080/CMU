@@ -14,22 +14,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import estgf.ipp.pt.cmu.Entities.Food.Food;
 import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
 import estgf.ipp.pt.cmu.Entities.Food.Product;
 import estgf.ipp.pt.cmu.Entities.Food.Recipe;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
-import estgf.ipp.pt.cmu.Entities.Result.IngredientResult;
-import estgf.ipp.pt.cmu.Entities.Result.ProductResult;
-import estgf.ipp.pt.cmu.Entities.Result.RecipeResult;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
-import estgf.ipp.pt.cmu.Querys.GetImages;
-import estgf.ipp.pt.cmu.Querys.GetIngredientInformation;
-import estgf.ipp.pt.cmu.Querys.GetProductInformation;
-import estgf.ipp.pt.cmu.Querys.GetRecipeInformation;
+import estgf.ipp.pt.cmu.API.Querys.GetImages;
+import estgf.ipp.pt.cmu.API.Querys.GetIngredientInformation;
+import estgf.ipp.pt.cmu.API.Querys.GetProductInformation;
+import estgf.ipp.pt.cmu.API.Querys.GetRecipeInformation;
+import estgf.ipp.pt.cmu.Utilities.NotifyGetFoodInformation;
 import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
-import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 
 public class MealFragment extends Fragment implements View.OnClickListener {
     private Context context;
@@ -37,6 +35,12 @@ public class MealFragment extends Fragment implements View.OnClickListener {
     private FloatingActionButton button;
     private FoodAdapter adapter;
     private OnFoodSelectedListener listener;
+    private NotifyGetFoodInformation notifyGetFoodInformation;
+
+    private TextView mealTime;
+    private TextView mealName;
+    private TextView guidelines;
+    private TextView recommendeCalories;
 
     @Override
     public void onAttach(Context context) {
@@ -44,6 +48,7 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
         try{
             listener=(OnFoodSelectedListener) context;
+            notifyGetFoodInformation= (NotifyGetFoodInformation) context;
         }catch (ClassCastException ex){
             throw new ClassCastException(context.toString()+ "must implement OnCountrySelectedListener");
         }
@@ -56,6 +61,10 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
         this.adapter= new FoodAdapter(context,listener);
 
+        if(meal.getFoodList().size()!=0){
+            this.adapter.addItems(meal.getFoodList());
+        }
+
     }
 
     @Nullable
@@ -64,6 +73,19 @@ public class MealFragment extends Fragment implements View.OnClickListener {
         View view= inflater.inflate(R.layout.meal_fragment_layout,container,false);
         button = (FloatingActionButton) view.findViewById(R.id.addFoodButton);
         button.setOnClickListener(this);
+
+        mealName = view.findViewById(R.id.textView_Meal_Name);
+        mealTime = view.findViewById(R.id.textView_Time_Meal);
+        guidelines= view.findViewById(R.id.guideLines);
+        recommendeCalories=view.findViewById(R.id.textView_recommended_calories);
+
+
+
+        this.recommendeCalories.setText(getString(R.string.recomended_calories,meal.RecommendedCalories()));
+        this.guidelines.setText(meal.getGuidelines());
+        this.mealTime.setText(getString(R.string.meal_time,meal.getTime()));
+        this.mealName.setText(meal.getName());
+
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = view.findViewById(R.id.foodRecyclerView);
         recyclerView.setAdapter(adapter);
@@ -78,13 +100,6 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
 
 
-    public Meal getMeal() {
-        return meal;
-    }
-
-    public void setMeal(Meal meal) {
-        this.meal = meal;
-    }
 
     @Override
     public void onClick(View v) {
@@ -94,27 +109,34 @@ public class MealFragment extends Fragment implements View.OnClickListener {
         fragmentTransaction.commit();
     }
 
+    public void updateMeal(Meal meal){
+    this.meal=meal;
+    }
+
+
+
     public void updateList(Result result){
         Food food = null;
         GetImages getImages= null;
         switch(result.getType()){
             case Ingredient:
                 Ingredient ingredient = new Ingredient(result.id,result.name);
-                GetIngredientInformation getIngredientInformation = new GetIngredientInformation(ingredient);
+
+                GetIngredientInformation getIngredientInformation = new GetIngredientInformation(ingredient,notifyGetFoodInformation);
                 getIngredientInformation.execute();
                 getImages= new GetImages(ingredient);
                 food=ingredient;
                 break;
             case Recipe:
                 Recipe recipe = new Recipe(result.id,result.title);
-                GetRecipeInformation getRecipeInformation = new GetRecipeInformation(recipe);
+                GetRecipeInformation getRecipeInformation = new GetRecipeInformation(recipe,notifyGetFoodInformation);
                 getRecipeInformation.execute();
                 getImages = new GetImages(recipe);
                 food=recipe;
                 break;
             case Product:
                 Product product = new Product(result.id,result.title);
-                GetProductInformation getProductInformation = new GetProductInformation(product);
+                GetProductInformation getProductInformation = new GetProductInformation(product,notifyGetFoodInformation);
                 getProductInformation.execute();
                 getImages = new GetImages(product);
                 food=product;
@@ -124,6 +146,8 @@ public class MealFragment extends Fragment implements View.OnClickListener {
         this.adapter.addItem(food);
 
     }
+
+
 
 
 }

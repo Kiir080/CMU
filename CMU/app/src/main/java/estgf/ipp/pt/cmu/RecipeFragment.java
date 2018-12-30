@@ -74,7 +74,8 @@ public class RecipeFragment extends Fragment {
         carbs.setText(String.valueOf(recipe.getNutrition().getCarbs()));
         prot.setText(String.valueOf(recipe.getNutrition().getProtein()));
         fat.setText(String.valueOf(recipe.getNutrition().getFat()));
-        imageView.setImageDrawable(recipe.getImage());
+        //imageView.setImageDrawable(recipe.getImage());
+        imageView.setImageBitmap(recipe.getImage());
     }
 
     public void addData(Recipe recipe){

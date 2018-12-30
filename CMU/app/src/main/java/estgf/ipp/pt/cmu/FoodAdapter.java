@@ -67,7 +67,8 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         Food temp = list.get(i);
 
         TextView textView = resultViewHolder.textView;
-        if (temp instanceof Ingredient ) {
+
+        if (temp instanceof Ingredient) {
             Ingredient ingredient = (Ingredient) temp;
             textView.setText(ingredient.getName());
 
@@ -108,9 +109,13 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         if (food!= null) {
             list.add(food);
             notifyDataSetChanged();
-            // notifyItemChanged(list.size()-1);
         }
 
+    }
+
+    public void addItems(List<Food> food){
+        list.addAll(food);
+        notifyDataSetChanged();
     }
 
 }

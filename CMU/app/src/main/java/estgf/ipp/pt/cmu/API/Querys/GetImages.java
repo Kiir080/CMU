@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu.Querys;
+package estgf.ipp.pt.cmu.API.Querys;
 
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -8,7 +8,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import estgf.ipp.pt.cmu.Entities.Food.Food;
-import estgf.ipp.pt.cmu.Entities.Result.Result;
 
 public class GetImages extends AsyncTask<Void,Integer,Void> {
 

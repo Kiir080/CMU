@@ -7,5 +7,4 @@ import estgf.ipp.pt.cmu.Entities.WeeksDays.WeeksDays;
 
 public interface OnWeeksDaySelectedListener {
     public void onWeeksDaySelected(WeeksDays weeksDay);
-
 }

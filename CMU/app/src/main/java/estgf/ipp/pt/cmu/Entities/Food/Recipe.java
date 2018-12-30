@@ -1,8 +1,7 @@
 package estgf.ipp.pt.cmu.Entities.Food;
 
-import android.content.Intent;
-
 import java.io.Serializable;
+
 
 public class Recipe extends Food implements Serializable {
 
@@ -16,12 +15,12 @@ public class Recipe extends Food implements Serializable {
     private static String baseUrl="https://spoonacular.com/recipeImages/{id}-312x231.jpg";
 
     public Recipe(int id,String title){
-        super(id,null,baseUrl.replace("{id}",Integer.toString(id)));
+        super(id,null,baseUrl.replace("{id}",Integer.toString(id)),"recipe");
         this.title = title;
     }
 
     public Recipe(int id, Nutrition nutrition, String imagePath, boolean vegetarian, boolean vegan, boolean glutenFree, boolean diaryFree, String title) {
-        super(id, nutrition, imagePath);
+        super(id, nutrition, imagePath,"recipe");
         this.vegetarian = vegetarian;
         this.vegan = vegan;
         this.glutenFree = glutenFree;
@@ -67,5 +66,17 @@ public class Recipe extends Food implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+                "vegetarian=" + vegetarian +
+                ", vegan=" + vegan +
+                ", glutenFree=" + glutenFree +
+                ", dairyFree=" + dairyFree +
+                ", title='" + title + '\'' +
+                ", type='" + type1 + '\'' +
+                '}';
     }
 }

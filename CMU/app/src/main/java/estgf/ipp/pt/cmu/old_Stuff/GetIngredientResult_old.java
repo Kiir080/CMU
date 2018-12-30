@@ -10,11 +10,10 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
-import estgf.ipp.pt.cmu.APIControllers.APIController;
-import estgf.ipp.pt.cmu.APIControllers.Routes;
+import estgf.ipp.pt.cmu.API.Controllers.APIController;
+import estgf.ipp.pt.cmu.API.Routes;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
 import estgf.ipp.pt.cmu.Entities.Result.ResultAdapter;
 import estgf.ipp.pt.cmu.Entities.Result.ResultType;

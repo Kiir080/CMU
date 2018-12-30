@@ -1,0 +1,131 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "6009ec1cf6787d5f28568de7d89f4b65",
+    "entities": [
+      {
+        "tableName": "WeeksDays",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `meals` TEXT, `caloriesConsumed` INTEGER NOT NULL, `caloriesEaten` INTEGER NOT NULL, `dayOfWeek` TEXT, `dateFormat` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "meals",
+            "columnName": "meals",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "caloriesConsumed",
+            "columnName": "caloriesConsumed",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "caloriesEaten",
+            "columnName": "caloriesEaten",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dayOfWeek",
+            "columnName": "dayOfWeek",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dateFormat",
+            "columnName": "dateFormat",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Meal",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`idMeal` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `Name` TEXT, `foodList` TEXT, `caloriesEaten` INTEGER NOT NULL, `time` TEXT, `recommendedCalories` REAL, `guidelines` TEXT, FOREIGN KEY(`idMeal`) REFERENCES `WeeksDays`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "idMeal",
+            "columnName": "idMeal",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "Name",
+            "columnName": "Name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "foodList",
+            "columnName": "foodList",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "caloriesEaten",
+            "columnName": "caloriesEaten",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "time",
+            "columnName": "time",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "recommendedCalories",
+            "columnName": "recommendedCalories",
+            "affinity": "REAL",
+            "notNull": false
+          },
+          {
+            "fieldPath": "guidelines",
+            "columnName": "guidelines",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "idMeal"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "WeeksDays",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "idMeal"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6009ec1cf6787d5f28568de7d89f4b65\")"
+    ]
+  }
+}

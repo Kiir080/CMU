@@ -5,13 +5,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_Meal_Name"
+        android:textSize="20sp"
+        android:textStyle="bold"/>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView_Time_Meal"
         android:textSize="35sp"
-        android:text="15:45h"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:layout_below="@+id/textView_Meal_Name"/>
 
     <TextView
         android:paddingBottom="30dp"
@@ -19,7 +28,6 @@
         android:id="@+id/textView_recommended_calories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Recommended Calories: 125 kcal"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_below="@+id/textView_Time_Meal"/>
@@ -34,23 +42,13 @@
         />
 
     <TextView
-        android:layout_below="@+id/textView_recommended_calories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Suggestions:"
-        android:id="@+id/textView_suggestions"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/guideLines"
         android:textSize="20sp"
         android:textStyle="bold"
         android:text="Guidelines:"
-        android:layout_below="@+id/textView_suggestions"
+        android:layout_below="@+id/textView_recommended_calories"
         android:paddingBottom="10dp"/>
 
     <android.support.v7.widget.RecyclerView

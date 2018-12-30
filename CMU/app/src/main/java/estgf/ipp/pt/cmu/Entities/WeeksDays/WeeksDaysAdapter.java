@@ -25,9 +25,9 @@ public class WeeksDaysAdapter extends RecyclerView.Adapter<WeeksDaysViewHolder> 
     private ArrayList<WeeksDays> list;
     private OnWeeksDaySelectedListener listener;
 
-    public WeeksDaysAdapter(Context context,List<WeeksDays> list,OnWeeksDaySelectedListener listener){
+    public WeeksDaysAdapter(Context context,OnWeeksDaySelectedListener listener){
         this.context=context;
-        this.list= (ArrayList<WeeksDays>) list;
+        this.list= new ArrayList<>();
         this.listener=listener;
 
     }
@@ -62,5 +62,10 @@ public class WeeksDaysAdapter extends RecyclerView.Adapter<WeeksDaysViewHolder> 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    public void addItems(List<WeeksDays> list){
+        this.list.addAll(list);
+        notifyDataSetChanged();
     }
 }

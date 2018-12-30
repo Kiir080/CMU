@@ -1,36 +1,67 @@
 package estgf.ipp.pt.cmu.Entities.Food;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 
-import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
-import java.net.URL;
 import java.util.List;
 
 import estgf.ipp.pt.cmu.Entities.Result.NutrientResult;
 import estgf.ipp.pt.cmu.Entities.Result.NutritionResult;
-import estgf.ipp.pt.cmu.Querys.GetImages;
 
 public class Food implements Serializable {
     private int id;
     private Nutrition nutrition;
     private String imagePath;
-    private Drawable image;
+    private transient byte[] imageByteArray;
+    private transient Bitmap image;
+    public String type1;
 
-    public Food(int id, Nutrition nutrition, String imagePath) {
+
+    public Food(int id, Nutrition nutrition, String imagePath, String type) {
         this.id = id;
         this.nutrition = nutrition;
         this.imagePath = imagePath;
+       // this.type1 = type;
 
     }
 
-    public Drawable getImage() {
+    public String getType1() {
+        return type1;
+    }
+
+    public void setType1(String type) {
+        this.type1 = type;
+    }
+
+    public byte[] getImageByteArray() {
+        return imageByteArray;
+    }
+
+    public void setImageByteArray(byte[] imageByteArray) {
+        this.imageByteArray = imageByteArray;
+    }
+
+
+    public Bitmap getImage() {
+        if(image == null){
+            Bitmap bitmap = BitmapFactory.decodeByteArray(this.imageByteArray, 0, this.imageByteArray.length);
+            this.image = bitmap;
+        }
+
         return image;
     }
 
     public void setImage(Drawable image) {
-        this.image = image;
+        //this.image = image;
+        Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
+        this.image=bitmap;
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
+        this.imageByteArray = stream.toByteArray();
     }
 
     public int getId() {

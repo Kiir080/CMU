@@ -1,8 +1,7 @@
-package estgf.ipp.pt.cmu.APIControllers;
+package estgf.ipp.pt.cmu.API;
 
 import java.util.List;
 
-import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
 import estgf.ipp.pt.cmu.Entities.Result.IngredientResult;
 import estgf.ipp.pt.cmu.Entities.Result.ProductResult;
 import estgf.ipp.pt.cmu.Entities.Result.RecipeResult;
