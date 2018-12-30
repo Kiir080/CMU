@@ -24,6 +24,25 @@
     <string name="diary_free">Diary Free</string>
     <string name="gluten_free">Gluten Free</string>
     <string name="recomended_calories">Recommended Calories: %1$s kcal</string>
+    <string name="calculated_calories">Your Max daily calories are set to %1$d kcal</string>
     <string name="meal_time">%1$sh</string>
+    <string name="user_register">User Registration</string>
+    <string name="username">Username</string>
+    <string name="age">Age</string>
+    <string name="height_meters">Height (meters)</string>
+    <string name="weight_kilograms">Weight (Kilograms)</string>
+    <string name="register">Register</string>
+    <string name="ok">OK</string>
 
+    <string-array name="activity_array">
+        <item>Sedentary</item>
+        <item>Low Active</item>
+        <item>Active</item>
+        <item>Very Active</item>
+    </string-array>
+
+    <string-array name="gender">
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
 </resources>

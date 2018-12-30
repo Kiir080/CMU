@@ -16,52 +16,23 @@ public class Food implements Serializable {
     private int id;
     private Nutrition nutrition;
     private String imagePath;
-    private transient byte[] imageByteArray;
-    private transient Bitmap image;
-    public String type1;
+    private transient Drawable image;
+
 
 
     public Food(int id, Nutrition nutrition, String imagePath, String type) {
         this.id = id;
         this.nutrition = nutrition;
         this.imagePath = imagePath;
-       // this.type1 = type;
-
     }
 
-    public String getType1() {
-        return type1;
-    }
-
-    public void setType1(String type) {
-        this.type1 = type;
-    }
-
-    public byte[] getImageByteArray() {
-        return imageByteArray;
-    }
-
-    public void setImageByteArray(byte[] imageByteArray) {
-        this.imageByteArray = imageByteArray;
-    }
-
-
-    public Bitmap getImage() {
-        if(image == null){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(this.imageByteArray, 0, this.imageByteArray.length);
-            this.image = bitmap;
-        }
-
+    public Drawable getImage() {
         return image;
     }
 
     public void setImage(Drawable image) {
-        //this.image = image;
-        Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
-        this.image=bitmap;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, stream);
-        this.imageByteArray = stream.toByteArray();
+        this.image = image;
+
     }
 
     public int getId() {
@@ -130,15 +101,5 @@ public class Food implements Serializable {
     }
 
 
-  /*  @Nullable
-    public Drawable loadImage() {
-        try {
-            InputStream is = (InputStream) new URL(this.baseURLRecipe).getContent();
-            Drawable d = Drawable.createFromStream(is, "useless");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
 
-    }*/
 }

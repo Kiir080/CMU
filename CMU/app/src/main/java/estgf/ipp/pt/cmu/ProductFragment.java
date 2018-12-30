@@ -54,8 +54,8 @@ public class ProductFragment extends Fragment {
         carbs.setText(String.valueOf(product.getNutrition().getCarbs()));
         prot.setText(String.valueOf(product.getNutrition().getProtein()));
         fat.setText(String.valueOf(product.getNutrition().getFat()));
-        //imageView.setImageDrawable(product.getImage());
-        imageView.setImageBitmap(product.getImage());
+        imageView.setImageDrawable(product.getImage());
+
     }
 
     public void addData(Product product){

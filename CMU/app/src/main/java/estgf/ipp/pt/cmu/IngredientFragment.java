@@ -60,8 +60,8 @@ public class IngredientFragment extends Fragment {
         carbs.setText(String.valueOf(ingredient.getNutrition().getCarbs()));
         prot.setText(String.valueOf(ingredient.getNutrition().getProtein()));
         fat.setText(String.valueOf(ingredient.getNutrition().getFat()));
-       // imageView.setImageDrawable(ingredient.getImage());
-        imageView.setImageBitmap(ingredient.getImage());
+        imageView.setImageDrawable(ingredient.getImage());
+
     }
 
     public void addData(Ingredient ingredient){

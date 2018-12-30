@@ -63,6 +63,8 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
         if(meal.getFoodList().size()!=0){
             this.adapter.addItems(meal.getFoodList());
+            GetImages getImages = new GetImages(meal.getFoodList(),context);
+            getImages.execute();
         }
 
     }
@@ -124,21 +126,21 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
                 GetIngredientInformation getIngredientInformation = new GetIngredientInformation(ingredient,notifyGetFoodInformation);
                 getIngredientInformation.execute();
-                getImages= new GetImages(ingredient);
+                getImages= new GetImages(ingredient,context);
                 food=ingredient;
                 break;
             case Recipe:
                 Recipe recipe = new Recipe(result.id,result.title);
                 GetRecipeInformation getRecipeInformation = new GetRecipeInformation(recipe,notifyGetFoodInformation);
                 getRecipeInformation.execute();
-                getImages = new GetImages(recipe);
+                getImages = new GetImages(recipe,context);
                 food=recipe;
                 break;
             case Product:
                 Product product = new Product(result.id,result.title);
                 GetProductInformation getProductInformation = new GetProductInformation(product,notifyGetFoodInformation);
                 getProductInformation.execute();
-                getImages = new GetImages(product);
+                getImages = new GetImages(product,context);
                 food=product;
                 break;
         }

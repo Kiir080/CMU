@@ -68,15 +68,5 @@ public class Recipe extends Food implements Serializable {
         this.title = title;
     }
 
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "vegetarian=" + vegetarian +
-                ", vegan=" + vegan +
-                ", glutenFree=" + glutenFree +
-                ", dairyFree=" + dairyFree +
-                ", title='" + title + '\'' +
-                ", type='" + type1 + '\'' +
-                '}';
-    }
+
 }

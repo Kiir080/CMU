@@ -27,11 +27,5 @@ public class Product extends Food implements Serializable {
     }
 
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "title='" + title + '\'' +
-                ", type='" + type1 + '\'' +
-                '}';
-    }
+
 }
