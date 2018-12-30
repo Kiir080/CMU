@@ -2,7 +2,6 @@ package estgf.ipp.pt.cmu;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,16 +12,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import estgf.ipp.pt.cmu.Entities.User;
+import estgf.ipp.pt.cmu.Database.Controllers.DBController;
+import estgf.ipp.pt.cmu.Database.Interfaces.NotifyInsertUser;
+import estgf.ipp.pt.cmu.Entities.User.User;
 
-public class Register extends AppCompatActivity implements AdapterView.OnItemSelectedListener,View.OnClickListener {
+public class Register extends AppCompatActivity implements AdapterView.OnItemSelectedListener,View.OnClickListener,NotifyInsertUser {
     private User user;
     private Context context;
+    private DBController dbController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         context=this;
+
+        dbController= new DBController(this);
 
         Spinner genderSpinner = (Spinner) findViewById(R.id.genderSpinner);
         Spinner activitySpinner = (Spinner) findViewById(R.id.activitySpinner);
@@ -81,16 +85,8 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 user.setWeight(Integer.parseInt(weight.getText().toString()));
 
                 calculateMaxDailyCalories(user);
-
-                View contextView = findViewById(R.id.registerButton);
-
-                Snackbar.make(contextView,getString(R.string.calculated_calories,user.getMaxCalories()),Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(context,Menu.class);
-                        context.startActivity(intent);
-                    }
-                }).show();
+                dbController.insert(user,this);
+            }else{
 
             }
         }
@@ -135,5 +131,17 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
                 user.setMaxCalories((int) (387 - 7.31f * user.getAge() + activity * (10.9f * user.getWeight() +  660.7f * user.getHeight())));
                 break;
         }
+    }
+
+    @Override
+    public void OnInsertUser() {
+        View contextView = findViewById(R.id.registerButton);
+        Snackbar.make(contextView,getString(R.string.calculated_calories,user.getMaxCalories()),Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,MainActivity.class);
+                context.startActivity(intent);
+            }
+        }).show();
     }
 }

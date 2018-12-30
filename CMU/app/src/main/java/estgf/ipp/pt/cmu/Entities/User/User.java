@@ -1,12 +1,21 @@
-package estgf.ipp.pt.cmu.Entities;
+package estgf.ipp.pt.cmu.Entities.User;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
+
+import java.util.List;
+
+import estgf.ipp.pt.cmu.Entities.Meal.Meal;
+import estgf.ipp.pt.cmu.Utilities.Converter;
 
 @Entity
 public class User {
     @PrimaryKey
+    @NonNull
     private String username;
     private int age;
     private String gender;
@@ -14,11 +23,15 @@ public class User {
     private String activity;
     private Float height;
     private int weight;
+    @TypeConverters(Converter.class)
+    private List<Meal> ADDED_DEFAULT_MEALS;
 
+    @Ignore
     public User(){
+        this.username="default";
     }
 
-    public User(String username, int age, String gender, int maxCalories, String activity, Float height, int weight) {
+    public User(@NonNull String username, int age, String gender, int maxCalories, String activity, Float height, int weight) {
         this.username = username;
         this.age = age;
         this.gender = gender;
@@ -31,6 +44,14 @@ public class User {
     public String getUsername() {
 
         return username;
+    }
+
+    public List<Meal> getADDED_DEFAULT_MEALS() {
+        return ADDED_DEFAULT_MEALS;
+    }
+
+    public void setADDED_DEFAULT_MEALS(List<Meal> ADDED_DEFAULT_MEALS) {
+        this.ADDED_DEFAULT_MEALS = ADDED_DEFAULT_MEALS;
     }
 
     public void setUsername(String username) {

@@ -39,7 +39,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MealActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".Register"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".MealRegister" />
+        <activity android:name=".UserInformation"></activity>
     </application>
 
 </manifest>

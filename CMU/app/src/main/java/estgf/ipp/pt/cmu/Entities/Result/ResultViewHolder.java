@@ -10,7 +10,7 @@ import android.widget.TextView;
 import estgf.ipp.pt.cmu.R;
 import estgf.ipp.pt.cmu.Utilities.RecyclerViewItemClickListener;
 
-public class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class ResultViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
 
 
     public TextView textView;
@@ -20,6 +20,7 @@ public class ResultViewHolder extends RecyclerView.ViewHolder implements View.On
         super(itemView);
         this.textView = (TextView) itemView.findViewById(R.id.resultTitle);
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
     }
 
     public void setRecyclerViewItemClickListener(RecyclerViewItemClickListener recyclerViewItemClickListener) {
@@ -29,5 +30,11 @@ public class ResultViewHolder extends RecyclerView.ViewHolder implements View.On
     @Override
     public void onClick(View v) {
         recyclerViewItemClickListener.onClick(v,getAdapterPosition());
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        recyclerViewItemClickListener.onLongPress(v,getAdapterPosition());
+        return true;
     }
 }

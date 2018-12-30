@@ -15,6 +15,7 @@ import estgf.ipp.pt.cmu.Entities.Food.Recipe;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
 import estgf.ipp.pt.cmu.Utilities.NotifyGetFoodInformation;
+import estgf.ipp.pt.cmu.Utilities.OnFoodAdded;
 import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.OnResultSelectedListener;
 
@@ -24,6 +25,7 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
     private ProductFragment productFragment;
     private RecipeFragment recipeFragment;
     private Meal meal;
+    private OnFoodAdded onFoodAdded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,7 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
 
         mealFragment= new MealFragment();
         mealFragment.updateMeal(meal);
+        onFoodAdded= mealFragment.getListener();
         getSupportFragmentManager().beginTransaction().add(R.id.fragmentPlaceholder,mealFragment).commit();
     }
 
@@ -50,11 +53,8 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.action_add) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this,UserInformation.class);
+        startActivity(intent);
         return super.onOptionsItemSelected(item);
     }
 
@@ -97,9 +97,22 @@ public class MealActivity extends AppCompatActivity  implements OnResultSelected
     }
 
     @Override
+    public void onRemoveFood(Food food) {
+        this.meal.getFoodList().remove(food);
+        this.meal.calculateCaloriesEaten();
+        DBController dbController = new DBController(this);
+        dbController.updateMeal(this.meal);
+        onFoodAdded.notifySumCalories(this.meal.getCaloriesEaten());
+    }
+
+
+    @Override
     public void OnGetFoodInformation(Food food) {
         this.meal.getFoodList().add(food);
+        this.meal.calculateCaloriesEaten();
         DBController dbController = new DBController(this);
-        dbController.update(this.meal);
+        dbController.updateMeal(this.meal);
+        onFoodAdded.notifySumCalories(this.meal.getCaloriesEaten());
     }
+
 }

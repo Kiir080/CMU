@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserInformation"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/user_information"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/user_information"
+        android:textStyle="bold"
+        android:textSize="35sp"/>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/username_1_s"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:id="@+id/user_gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/gender_1_s"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:id="@+id/user_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/age_1_d"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+    <TextView
+        android:id="@+id/user_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/height_1_f"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+    <TextView
+        android:id="@+id/user_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/weight_1_d"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+    <TextView
+        android:id="@+id/user_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/type_of_activity_1_s"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+
+    <TextView
+        android:id="@+id/user_maxCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/max_daily_calories_1_d"
+        android:textSize="25sp"
+        android:paddingTop="10dp"/>
+
+
+
+
+</LinearLayout>

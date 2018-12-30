@@ -75,6 +75,11 @@ public class ResultAdapter extends RecyclerView.Adapter<ResultViewHolder> {
                 x.popBackStack();
 
             }
+
+            @Override
+            public void onLongPress(View view, int position) {
+
+            }
         });
 
     }

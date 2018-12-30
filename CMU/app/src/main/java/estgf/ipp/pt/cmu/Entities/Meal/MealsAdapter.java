@@ -1,8 +1,9 @@
 package estgf.ipp.pt.cmu.Entities.Meal;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +11,10 @@ import android.view.ViewGroup;
 
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Comparator;
 import java.util.List;
 
 import estgf.ipp.pt.cmu.R;
-import estgf.ipp.pt.cmu.SaveCurrentMeal;
 import estgf.ipp.pt.cmu.Utilities.OnMealSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.RecyclerViewItemClickListener;
 
@@ -28,6 +28,12 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsViewHolder>  {
     public MealsAdapter(Context context, List<Meal> list,OnMealSelectedListener listener){
         this.context=context;
         this.list= (ArrayList<Meal>) list;
+        this.listener=listener;
+    }
+
+    public MealsAdapter(Context context,OnMealSelectedListener listener){
+        this.context=context;
+        this.list= new ArrayList<>();
         this.listener=listener;
     }
 
@@ -53,6 +59,11 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsViewHolder>  {
                 listener.onMealSelected(list.get(position));
 
             }
+
+            @Override
+            public void onLongPress(View view, int position) {
+                listener.onMealLongPressed(list.get(position));
+            }
         });
 
     }
@@ -60,5 +71,24 @@ public class MealsAdapter extends RecyclerView.Adapter<MealsViewHolder>  {
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+
+    public void setItems(List<Meal> meals){
+        list = (ArrayList<Meal>) meals;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            list.sort(new Comparator<Meal>() {
+                @Override
+                public int compare(Meal o1, Meal o2) {
+                   return o1.getTime().compareTo(o2.getTime());
+                }
+            });
+        }
+        notifyDataSetChanged();
+    }
+
+    public void removeItem(Meal meal){
+        list.remove(meal);
+        notifyDataSetChanged();
     }
 }

@@ -70,7 +70,17 @@ public class Meal implements Serializable {
         foodList=new ArrayList<>();
         DateFormat format = new SimpleDateFormat("HH:mm",Locale.ENGLISH);
         this.time= format.format(timeCal.getTime());
+        this.guidelines=guidelines;
+        this.recommendedCalories=recommendedCalories;
+    }
 
+    @Ignore
+    public Meal(String name, Calendar time, String guidelines, Float recommendedCalories){
+        this.Name=name;
+        this.timeCal=time;
+        foodList=new ArrayList<>();
+        DateFormat format = new SimpleDateFormat("HH:mm",Locale.ENGLISH);
+        this.time= format.format(timeCal.getTime());
         this.guidelines=guidelines;
         this.recommendedCalories=recommendedCalories;
     }
@@ -126,5 +136,15 @@ public class Meal implements Serializable {
 
     public void setCaloriesEaten(int caloriesEaten) {
         this.caloriesEaten = caloriesEaten;
+    }
+
+    public void calculateCaloriesEaten(){
+        int count =0;
+        for (Food pos:
+             foodList) {
+            count += pos.getNutrition().getCalories();
+        }
+
+        this.caloriesEaten=count;
     }
 }

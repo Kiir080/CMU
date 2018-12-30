@@ -21,4 +21,6 @@ public interface WeeksDaysDAO {
 
     @Update
     public void update(WeeksDays weeksDays);
+
+
 }

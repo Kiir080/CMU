@@ -6,6 +6,7 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.Relation;
 import android.arch.persistence.room.TypeConverters;
+import android.content.Intent;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -19,12 +20,12 @@ import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Utilities.Converter;
 
 @Entity
-public class WeeksDays {
+public class WeeksDays{
     @PrimaryKey(autoGenerate = true)
     public int id;
     @Ignore
     private Calendar date;
-    private int caloriesConsumed;
+    private int caloriesConsumed; //
     private int caloriesEaten;
     private String dayOfWeek;
     private String dateFormat;
@@ -52,6 +53,7 @@ public class WeeksDays {
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+        initializeCalendar();
     }
 
     public String getDayOfWeek() {
@@ -116,4 +118,16 @@ public class WeeksDays {
                 break;
         }
     }
+
+    private void initializeCalendar(){
+        String array[] = this.dateFormat.split("/");
+        Calendar save = Calendar.getInstance();
+        save.set(Calendar.DAY_OF_MONTH,Integer.parseInt(array[0]));
+        save.set(Calendar.MONTH,Integer.parseInt(array[1]));
+        save.set(Calendar.YEAR,Integer.parseInt(array[2]));
+        this.date=save;
+    }
+
+
+
 }

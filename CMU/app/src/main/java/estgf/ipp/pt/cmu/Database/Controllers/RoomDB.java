@@ -1,23 +1,22 @@
 package estgf.ipp.pt.cmu.Database.Controllers;
 
-import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
 
+import estgf.ipp.pt.cmu.Database.DAO.UserDAO;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
+import estgf.ipp.pt.cmu.Entities.User.User;
 import estgf.ipp.pt.cmu.Entities.WeeksDays.WeeksDays;
 import estgf.ipp.pt.cmu.Database.DAO.MealDAO;
 import estgf.ipp.pt.cmu.Database.DAO.WeeksDaysDAO;
 
-@Database(entities = {WeeksDays.class,Meal.class},version = 6)
+@Database(entities = {WeeksDays.class,Meal.class,User.class},version = 8)
 public abstract class RoomDB extends RoomDatabase {
 
     public abstract WeeksDaysDAO dao();
     public abstract MealDAO mealDAO();
+    public abstract UserDAO userDAO();
     private static  volatile RoomDB INSTANCE;
 
     public static RoomDB getDatabase(final Context context){
@@ -35,28 +34,4 @@ public abstract class RoomDB extends RoomDatabase {
         return  INSTANCE;
     }
 
-    @VisibleForTesting
-    static final Migration MIGRATION_1_2 = new Migration(1,2) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-        }
-    };
-
-
-    @VisibleForTesting
-    static final Migration MIGRATION_2_3 = new Migration(2,3) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-        }
-    };
-
-    @VisibleForTesting
-    static final Migration MIGRATION_3_4 = new Migration(3,4) {
-        @Override
-        public void migrate(@NonNull SupportSQLiteDatabase database) {
-
-        }
-    };
 }

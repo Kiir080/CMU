@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu.Database.Controllers;
+package estgf.ipp.pt.cmu.Database.Interfaces;
 
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 

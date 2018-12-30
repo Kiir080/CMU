@@ -5,17 +5,17 @@ import android.os.AsyncTask;
 import estgf.ipp.pt.cmu.Database.DAO.MealDAO;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 
-public class Update extends AsyncTask<Meal, Void, Void> {
-    private final MealDAO dao;
+public class RemoveMeal extends AsyncTask<Meal,Void,Void> {
 
-    public Update(MealDAO dao) {
-        this.dao = dao;
+    private MealDAO mealDAO;
+    public RemoveMeal(MealDAO mealDAO) {
+        this.mealDAO=mealDAO;
     }
 
 
     @Override
     protected Void doInBackground(Meal... meals) {
-        dao.update(meals[0]);
+        this.mealDAO.remove(meals[0]);
         return null;
     }
 }

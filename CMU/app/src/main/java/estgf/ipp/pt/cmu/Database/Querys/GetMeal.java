@@ -1,12 +1,12 @@
-package estgf.ipp.pt.cmu.Database.Controllers;
+package estgf.ipp.pt.cmu.Database.Querys;
 
 import android.os.AsyncTask;
 
+import estgf.ipp.pt.cmu.Database.Interfaces.NotifyGetMeal;
 import estgf.ipp.pt.cmu.Database.DAO.MealDAO;
-import estgf.ipp.pt.cmu.Database.Interfaces.NotifyGetMeals;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 
-class GetMeal extends AsyncTask<Integer,Void,Meal> {
+public class GetMeal extends AsyncTask<Integer,Void,Meal> {
 
     private final MealDAO mealDAO;
     private final NotifyGetMeal notifyGetMeal;

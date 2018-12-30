@@ -1,4 +1,4 @@
-package estgf.ipp.pt.cmu;
+package estgf.ipp.pt.cmu.Entities.Food;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import estgf.ipp.pt.cmu.Database.Interfaces.NotifyRemoveFood;
 import estgf.ipp.pt.cmu.Entities.Food.Food;
 import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
 import estgf.ipp.pt.cmu.Entities.Food.Product;
@@ -22,27 +23,32 @@ import estgf.ipp.pt.cmu.Entities.Food.Recipe;
 import estgf.ipp.pt.cmu.Entities.Result.Result;
 import estgf.ipp.pt.cmu.Entities.Result.ResultType;
 import estgf.ipp.pt.cmu.Entities.Result.ResultViewHolder;
+import estgf.ipp.pt.cmu.R;
+import estgf.ipp.pt.cmu.Utilities.DeleteDialog;
+import estgf.ipp.pt.cmu.Utilities.OnFoodAdded;
 import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
 import estgf.ipp.pt.cmu.Utilities.RecyclerViewItemClickListener;
 
-public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
+public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> implements NotifyRemoveFood {
 
     private Context context;
     private ArrayList<Food> list;
     private OnFoodSelectedListener listener;
+    private NotifyRemoveFood INSTANCE;
+    private Food temp;
 
-    public FoodAdapter(Context context, OnFoodSelectedListener listener ) {
+    public FoodAdapter(Context context, OnFoodSelectedListener listener) {
         this.context = context;
         this.list = new ArrayList<>();
         this.listener=listener;
-
+        this.INSTANCE=this;
 
     }
     public FoodAdapter(Context context, List<Food> list, OnFoodSelectedListener listener ) {
         this.context = context;
         this.list = (ArrayList<Food>) list;
         this.listener=listener;
-
+        this.INSTANCE=this;
 
     }
 
@@ -64,7 +70,7 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ResultViewHolder resultViewHolder, int i) {
-        Food temp = list.get(i);
+        temp = list.get(i);
 
         TextView textView = resultViewHolder.textView;
 
@@ -84,7 +90,7 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
             @Override
             public void onClick(View view, int position) {
                 FragmentManager x = ((AppCompatActivity) context).getSupportFragmentManager();
-                Food temp =list.get(position);
+                temp =list.get(position);
 
                 if (temp instanceof Ingredient ) {
                     listener.onFoodSelected((Ingredient)temp);
@@ -94,6 +100,14 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
                     listener.onFoodSelected((Product)temp);
                 }
 
+            }
+
+            @Override
+            public void onLongPress(View view, int position) {
+                DeleteDialog deleteDialog = new DeleteDialog();
+                deleteDialog.setListener(INSTANCE);
+                deleteDialog.show(((AppCompatActivity)context).getSupportFragmentManager(),"delete_dialog");
+                temp =list.get(position);
             }
         });
 
@@ -109,6 +123,7 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         if (food!= null) {
             list.add(food);
             notifyDataSetChanged();
+
         }
 
     }
@@ -118,4 +133,10 @@ public class FoodAdapter extends RecyclerView.Adapter<ResultViewHolder> {
         notifyDataSetChanged();
     }
 
+    @Override
+    public void OnRemoveFood() {
+
+        listener.onRemoveFood(temp);
+        list.remove(temp);
+    }
 }

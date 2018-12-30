@@ -8,7 +8,7 @@ import android.widget.TextView;
 import estgf.ipp.pt.cmu.R;
 import estgf.ipp.pt.cmu.Utilities.RecyclerViewItemClickListener;
 
-public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,View.OnLongClickListener {
 
     public TextView Meal;
     public TextView Time;
@@ -21,6 +21,7 @@ public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnC
         this.Meal=(TextView) itemView.findViewById(R.id.textView_Meal);
         this.Time = (TextView) itemView.findViewById(R.id.textView_Time);
         itemView.setOnClickListener(this);
+        itemView.setOnLongClickListener(this);
 
     }
 
@@ -32,5 +33,11 @@ public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnC
     @Override
     public void onClick(View v) {
         recyclerViewItemClickListener.onClick(v,getAdapterPosition());
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        recyclerViewItemClickListener.onLongPress(v,getAdapterPosition());
+        return true;
     }
 }

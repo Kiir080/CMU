@@ -33,6 +33,26 @@
     <string name="weight_kilograms">Weight (Kilograms)</string>
     <string name="register">Register</string>
     <string name="ok">OK</string>
+    <string name="consumed_calories">Consumed Calories: %1$d kcal</string>
+    <string name="guidelines">Guidelines:</string>
+    <string name="caloriesX">Calories: %1$d</string>
+    <string name="meal_registration">Meal Registration</string>
+    <string name="mealName">Name</string>
+    <string name="time">Time</string>
+    <string name="recommend_calories_percentage_0_1">Recommend Calories Percentage (0 … 1)</string>
+    <string name="add_to_default_meals">Add to default meals</string>
+    <string name="time_required">Time is required!</string>
+    <string name="delete_item">Do you want to Remove this item?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="user_information">User Information</string>
+    <string name="age_1_d">Age: %1$d </string>
+    <string name="height_1_f">Height: %1$.2f m</string>
+    <string name="weight_1_d">Weight: %1$d kg</string>
+    <string name="type_of_activity_1_s">Type of Activity: %1$s</string>
+    <string name="gender_1_s">Gender: %1$s</string>
+    <string name="max_daily_calories_1_d">Max Daily Calories: %1$d kcal</string>
+    <string name="username_1_s">Username: %1$s</string>
 
     <string-array name="activity_array">
         <item>Sedentary</item>

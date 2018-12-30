@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MealRegister"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/meal_registration"
+        android:textSize="30sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:paddingTop="20dp"
+        android:id="@+id/mealName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/mealName"
+        />
+
+    <Button
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/time"
+        android:onClick="showTimePickerDialog"
+        android:layout_gravity="center_horizontal"/>
+
+    <EditText
+        android:paddingTop="10dp"
+        android:id="@+id/mealRecommendCalories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/recommend_calories_percentage_0_1"
+        android:inputType="numberDecimal"/>
+
+    <EditText
+        android:paddingTop="10dp"
+        android:id="@+id/mealGuidelines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/guidelines"/>
+
+    <CheckBox android:id="@+id/addToAllWeeksDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_to_default_meals"
+        android:onClick="onCheckboxClicked"/>
+
+    <Button
+        android:paddingTop="10dp"
+        android:id="@+id/mealRegisterButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:layout_gravity="center_horizontal" />
+
+
+</LinearLayout>

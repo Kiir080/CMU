@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import estgf.ipp.pt.cmu.Entities.Food.Food;
+import estgf.ipp.pt.cmu.Entities.Food.FoodAdapter;
 import estgf.ipp.pt.cmu.Entities.Food.Ingredient;
 import estgf.ipp.pt.cmu.Entities.Food.Product;
 import estgf.ipp.pt.cmu.Entities.Food.Recipe;
@@ -27,9 +28,10 @@ import estgf.ipp.pt.cmu.API.Querys.GetIngredientInformation;
 import estgf.ipp.pt.cmu.API.Querys.GetProductInformation;
 import estgf.ipp.pt.cmu.API.Querys.GetRecipeInformation;
 import estgf.ipp.pt.cmu.Utilities.NotifyGetFoodInformation;
+import estgf.ipp.pt.cmu.Utilities.OnFoodAdded;
 import estgf.ipp.pt.cmu.Utilities.OnFoodSelectedListener;
 
-public class MealFragment extends Fragment implements View.OnClickListener {
+public class MealFragment extends Fragment implements View.OnClickListener,OnFoodAdded {
     private Context context;
     private Meal meal;
     private FloatingActionButton button;
@@ -41,6 +43,7 @@ public class MealFragment extends Fragment implements View.OnClickListener {
     private TextView mealName;
     private TextView guidelines;
     private TextView recommendeCalories;
+    private TextView eatedCalories;
 
     @Override
     public void onAttach(Context context) {
@@ -80,13 +83,19 @@ public class MealFragment extends Fragment implements View.OnClickListener {
         mealTime = view.findViewById(R.id.textView_Time_Meal);
         guidelines= view.findViewById(R.id.guideLines);
         recommendeCalories=view.findViewById(R.id.textView_recommended_calories);
-
+        eatedCalories=view.findViewById(R.id.textView_eaten_calories);
 
 
         this.recommendeCalories.setText(getString(R.string.recomended_calories,meal.RecommendedCalories()));
         this.guidelines.setText(meal.getGuidelines());
         this.mealTime.setText(getString(R.string.meal_time,meal.getTime()));
         this.mealName.setText(meal.getName());
+
+        this.eatedCalories.setText(getString(R.string.consumed_calories,this.meal.getCaloriesEaten()));
+
+
+
+
 
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
         RecyclerView recyclerView = view.findViewById(R.id.foodRecyclerView);
@@ -102,6 +111,9 @@ public class MealFragment extends Fragment implements View.OnClickListener {
 
 
 
+    public OnFoodAdded getListener(){
+        return this;
+    }
 
     @Override
     public void onClick(View v) {
@@ -150,6 +162,9 @@ public class MealFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void notifySumCalories(int calories) {
+        this.eatedCalories.setText(getString(R.string.consumed_calories,calories));
 
-
+    }
 }

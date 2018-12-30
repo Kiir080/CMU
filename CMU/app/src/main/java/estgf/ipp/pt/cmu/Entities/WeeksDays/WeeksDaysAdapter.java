@@ -48,12 +48,17 @@ public class WeeksDaysAdapter extends RecyclerView.Adapter<WeeksDaysViewHolder> 
         WeeksDays temp = list.get(i);
         weeksDaysViewHolder.textView.setText(temp.getDayOfWeek());
         weeksDaysViewHolder.date.setText(temp.getDateFormat());
-        weeksDaysViewHolder.ConsumedCalories.setText("Calories: 1000");
+        weeksDaysViewHolder.ConsumedCalories.setText(context.getString(R.string.caloriesX,temp.getCaloriesEaten()));
 
         weeksDaysViewHolder.setRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
             @Override
             public void onClick(View view, int position) {
                 listener.onWeeksDaySelected(list.get(position));
+
+            }
+
+            @Override
+            public void onLongPress(View view, int position) {
 
             }
         });
@@ -65,6 +70,9 @@ public class WeeksDaysAdapter extends RecyclerView.Adapter<WeeksDaysViewHolder> 
     }
 
     public void addItems(List<WeeksDays> list){
+        if(this.list.size()!=0){
+            this.list.clear();
+        }
         this.list.addAll(list);
         notifyDataSetChanged();
     }

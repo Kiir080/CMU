@@ -48,9 +48,7 @@ public class Menu extends Fragment implements View.OnClickListener{
         btnWeekMealActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // Intent intent = new Intent(getActivity(), WeeksMealPlan.class);
-                Intent intent = new Intent(getActivity(), Register.class);
-
+                Intent intent = new Intent(getActivity(), WeeksMealPlan.class);
                 startActivity(intent);
             }
         });
