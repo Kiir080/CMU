@@ -1,68 +1,46 @@
 package estgf.ipp.pt.cmu;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
-public class Menu extends Fragment implements View.OnClickListener{
-
-    private OnFragmentSelectedListener mListener;
-
-    public interface OnFragmentSelectedListener {
-        void OnMarkActivity(MarkActivity markActivity);
-        void OnStartActivity(StartActivity startActivity);
-    }
+public class Menu extends AppCompatActivity {
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + " must implement OnPersonSelectedListener");
-        }
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.menu_layout);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View mContentView = inflater.inflate(R.layout.menu_layout, container, false);
+        Button btnMarkActivity = (Button) findViewById(R.id.mark_activity);
+        Button btnStartActivity = (Button) findViewById(R.id.start_activity);
+        Button btnMealActivity = (Button) findViewById(R.id.meal_activity);
 
-        Button btnMarkActivity = (Button) mContentView.findViewById(R.id.mark_activity);
-        btnMarkActivity.setOnClickListener(this);
-
-        Button btnStartActivity = (Button) mContentView.findViewById(R.id.start_activity);
-        btnStartActivity.setOnClickListener(this);
-
-        ChangeToMealActivityScreen (mContentView);
-
-        return mContentView;
-    }
-
-    public void ChangeToMealActivityScreen (View view) {
-        Button btnWeekMealActivity = (Button) view.findViewById(R.id.meal_activity);
-        btnWeekMealActivity.setOnClickListener(new View.OnClickListener() {
+        btnMarkActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), WeeksMealPlan.class);
+                Intent intent = new Intent(Menu.this, MarkActivity.class);
                 startActivity(intent);
             }
         });
+
+        btnStartActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this, StartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnMealActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this, WeeksMealPlan.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.mark_activity:
-                mListener.OnMarkActivity(new MarkActivity());
-                break;
-            case R.id.start_activity:
-                mListener.OnStartActivity(new StartActivity());
-                break;
-        }
-    }
 }

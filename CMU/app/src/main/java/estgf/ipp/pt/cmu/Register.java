@@ -139,7 +139,7 @@ public class Register extends AppCompatActivity implements AdapterView.OnItemSel
         Snackbar.make(contextView,getString(R.string.calculated_calories,user.getMaxCalories()),Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,MainActivity.class);
+                Intent intent = new Intent(context,Menu.class);
                 context.startActivity(intent);
             }
         }).show();
