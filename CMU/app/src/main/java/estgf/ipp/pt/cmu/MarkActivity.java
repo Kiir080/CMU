@@ -3,64 +3,81 @@ package estgf.ipp.pt.cmu;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class MarkActivity extends Fragment {
+import java.util.Calendar;
+
+public class MarkActivity extends AppCompatActivity {
 
     private String CHANNEL_ID = "channel";
     private int notificationId;
-    private String channel_description = "This is channel 1";
-    private String channel_name = "Channel 1";
+    private String channel_description = "This is a channel";
+    private String channel_name = "Channel";
 
     private TextView title;
     private CalendarView calendarView;
     private Button launch_btn;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mark_activity, container, false);
-        title = (TextView) view.findViewById(R.id.mark_activity);
-        calendarView = (CalendarView) view.findViewById(R.id.mark_activity_calendar);
-        launch_btn = (Button) view.findViewById(R.id.launch_notification);
-        Notifications(view);
-        return view;
-    }
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.mark_activity);
 
-    public void Notifications (View view) {
         createNotificationChanel();
-        showNotification(view);
+
+        title = (TextView) findViewById(R.id.mark_activity);
+        calendarView = (CalendarView) findViewById(R.id.mark_activity_calendar);
+        launch_btn = (Button) findViewById(R.id.launch_notification);
+
+        verify();
+
+    }
+    private void verify () {
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
+                Calendar calendar = Calendar.getInstance();
+                if (calendar.get(Calendar.DAY_OF_MONTH) > day && calendar.get(Calendar.MONTH) <= (month + 1)) {
+                    Toast.makeText(getApplicationContext(), "Impossível marcar atividade para a data pretendida ", Toast.LENGTH_SHORT).show();
+                    verify();
+                } else {
+                    String selectedDate = day + "/" + (month + 1) + "/" + year;
+                    showNotification(selectedDate);
+                }
+            }
+        });
     }
 
-    public void showNotification(View view) {
-
+    public void showNotification(final String activityDate) {
         launch_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                NotificationCompat.Builder createNotification = new NotificationCompat.Builder(getActivity(), CHANNEL_ID)
+                NotificationCompat.Builder createNotification = new NotificationCompat.Builder(MarkActivity.this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.notification)
                         .setContentTitle("Notificação")
-                        .setContentText("Atividade marcada para ")
+                        .setContentText("Atividade marcada para " + activityDate)
                         .setAutoCancel(true)
                         .setPriority(NotificationCompat.PRIORITY_HIGH);
-                NotificationManagerCompat showNotification = NotificationManagerCompat.from(getActivity());
-                showNotification.notify(notificationId, createNotification.build());
+                NotificationManagerCompat showNot = NotificationManagerCompat.from(MarkActivity.this);
+                showNot.notify(notificationId, createNotification.build());
             }
         });
-
     }
 
-    public void cancelNotification(View view) {
-        NotificationManagerCompat cancelMessage = NotificationManagerCompat.from(getActivity());
-        cancelMessage.cancel(notificationId);
+    private void dateFromCalendar() {
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
+                String date = year + "/" + month + "/" + day;
+            }
+        });
     }
 
     private void createNotificationChanel() {
@@ -68,11 +85,13 @@ public class MarkActivity extends Fragment {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channel_name, importance);
             channel.setDescription(channel_description);
-            NotificationManager notificationManager = getActivity().getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
-
+//    Just here if needed
+//    public void cancelNotification () {
+//        NotificationManagerCompat cancelMessage = NotificationManagerCompat.from(this);
+//        cancelMessage.cancel(notificationId);
+//    }
 }
-
-
