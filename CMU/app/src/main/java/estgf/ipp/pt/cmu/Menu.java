@@ -1,6 +1,7 @@
 package estgf.ipp.pt.cmu;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -33,6 +34,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -53,12 +55,13 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
     private static final String LOG_TAG = "FitActivity";
     private float total;
     private float expendedCalories;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_layout);
-
+context=this;
         Button btnMarkActivity = (Button) findViewById(R.id.mark_activity);
         Button btnStartActivity = (Button) findViewById(R.id.start_activity);
         Button btnMealActivity = (Button) findViewById(R.id.meal_activity);
@@ -90,10 +93,18 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
         DBController dbController = new DBController(this);
         dbController.getUsers(this);
 
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
+       /* FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .build();
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_WRITE)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_WRITE)
+                .build();*/
+
+        FitnessOptions fitnessOptions =
+                FitnessOptions.builder()
+                        .addDataType(DataType.TYPE_STEP_COUNT_CUMULATIVE,FitnessOptions.ACCESS_WRITE)
+                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA,FitnessOptions.ACCESS_WRITE)
+                        .build();
 
         if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
             GoogleSignIn.requestPermissions(
@@ -102,9 +113,60 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
         } else {
-            connect();
+            //connect();
+            subscribe();
         }
 
+    }
+
+
+    /** Records step data by requesting a subscription to background step data. */
+    public void subscribe() {
+        // To create a subscription, invoke the Recording API. As soon as the subscription is
+        // active, fitness data will start recording.
+        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                .addOnCompleteListener(
+                        new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Log.i(LOG_TAG, "Successfully subscribed!");
+                                    h();
+
+                                } else {
+                                    Log.w(LOG_TAG, "There was a problem subscribing.", task.getException());
+                                }
+                            }
+                        });
+    }
+
+    /**
+     * Reads the current daily step total, computed from midnight of the current day on the device's
+     * current timezone.
+     */
+    private void readData() {
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(
+                        new OnSuccessListener<DataSet>() {
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+
+                                long total =
+                                        dataSet.isEmpty()
+                                                ? 0
+                                                : dataSet.getDataPoints().get(0).getValue(Field.FIELD_STEPS).asInt();
+                                Log.i(LOG_TAG, "Total steps: " + total);
+                            }
+                        })
+                .addOnFailureListener(
+                        new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(LOG_TAG, "There was a problem getting the step count.", e);
+                            }
+                        });
     }
 
     @Override
@@ -112,7 +174,8 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
         if (resultCode == AppCompatActivity.RESULT_OK) {
             if (requestCode ==  (System.identityHashCode(this) & 0xFFFF)) {
                 //accessGoogleFit();
-                connect();
+                //connect();
+                subscribe();
             }
         }
     }
@@ -120,7 +183,7 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
     public void connect(){
         client  = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.HISTORY_API)
-                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
+                .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ_WRITE))
                 .addConnectionCallbacks(this)
                 .useDefaultAccount().build();
 
@@ -167,7 +230,80 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
         endTime.set(Calendar.HOUR_OF_DAY,23);
         endTime.set(Calendar.MINUTE,59);
 
+        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .subscribe(DataType.TYPE_STEP_COUNT_DELTA)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i(LOG_TAG, "Successfully subscribed!");
 
+                        h();
+                        Fitness.getHistoryClient(context, GoogleSignIn.getLastSignedInAccount(context)).readDailyTotal(DataType.TYPE_STEP_COUNT_DELTA).addOnSuccessListener(new OnSuccessListener<DataSet>() {
+                            @Override
+                            public void onSuccess(DataSet dataSet) {
+                                dumpDataSet(dataSet);
+                            }
+                        });
+
+                        gg();
+                        a();
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i(LOG_TAG, "There was a problem subscribing.");
+                    }
+                });
+
+
+
+
+    }
+
+
+    public void gg(){
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+
+        DataReadRequest readRequest = new DataReadRequest.Builder()
+                .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+                .bucketByActivityType(1, TimeUnit.SECONDS)
+                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        Task<DataReadResponse> response = Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this)).readData(readRequest);
+        List<DataSet> dataSets = response.getResult().getDataSets();
+
+       // dumpDataSet(dataSets.get(0));
+    }
+    private static void dumpDataSet(DataSet dataSet) {
+        Log.i(LOG_TAG, "Data returned for Data type: " + dataSet.getDataType().getName());
+        DateFormat dateFormat = getTimeInstance();
+
+        for (DataPoint dp : dataSet.getDataPoints()) {
+            Log.i(LOG_TAG, "Data point:");
+            Log.i(LOG_TAG, "\tType: " + dp.getDataType().getName());
+            Log.i(LOG_TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.i(LOG_TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
+            for (Field field : dp.getDataType().getFields()) {
+                Log.i(LOG_TAG, "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    public void a(){
 
         DataReadRequest readRequest = new DataReadRequest.Builder()
                 .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
@@ -207,19 +343,17 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
                             }
                             String bucketActivity = bucket.getActivity();
 
-                                List<DataSet> dataSets = bucket.getDataSets();
-                                for (DataSet dataSet : dataSets) {
+                            List<DataSet> dataSets = bucket.getDataSets();
+                            for (DataSet dataSet : dataSets) {
 
-                                    if(dataSet.getDataType().getName().equals("com.google.calories.expended")) {
+                                if(dataSet.getDataType().getName().equals("com.google.calories.expended")) {
 
-                                        for (DataPoint dp : dataSet.getDataPoints()) {
+                                    for (DataPoint dp : dataSet.getDataPoints()) {
 
-                                            if (dp.getEndTime(TimeUnit.MILLISECONDS) > dp.getStartTime(TimeUnit.MILLISECONDS)) {
-                                                for (Field field : dp.getDataType().getFields()) {
-                                                    // total calories burned
-                                                    expendedCalories = expendedCalories + dp.getValue(field).asFloat();
-                                                }
-
+                                        if (dp.getEndTime(TimeUnit.MILLISECONDS) > dp.getStartTime(TimeUnit.MILLISECONDS)) {
+                                            for (Field field : dp.getDataType().getFields()) {
+                                                // total calories burned
+                                                expendedCalories = expendedCalories + dp.getValue(field).asFloat();
                                             }
 
                                         }
@@ -227,6 +361,8 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
                                     }
 
                                 }
+
+                            }
 
 
 
@@ -250,8 +386,52 @@ public class Menu extends AppCompatActivity implements NotifyGetUsers, GoogleApi
                 });
     }
 
-    @Override
-    public void onConnectionSuspended(int i) {
+    public void h(){
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.HOUR_OF_DAY, -1);
+        long startTime = cal.getTimeInMillis();
 
+// Create a data source
+        DataSource dataSource =
+                new DataSource.Builder()
+                        .setAppPackageName(this)
+                        .setDataType(DataType.TYPE_STEP_COUNT_DELTA)
+                        .setStreamName(LOG_TAG + " - step count")
+                        .setType(DataSource.TYPE_RAW)
+                        .build();
+
+// Create a data set
+        int stepCountDelta = 950;
+        DataSet dataSet = DataSet.create(dataSource);
+// For each data point, specify a start time, end time, and the data value -- in this case,
+// the number of new steps.
+        DataPoint dataPoint =
+                dataSet.createDataPoint().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
+        dataPoint.getValue(Field.FIELD_STEPS).setInt(stepCountDelta);
+        dataSet.add(dataPoint);
+
+        Task<Void> response = Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this)).insertData(dataSet);
+        response.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                readData();
+            }
+        });
+        response.addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                String x ="AA";
+            }
+        });
+
+        response.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                String x = e.getLocalizedMessage();
+            }
+        });
     }
 }
