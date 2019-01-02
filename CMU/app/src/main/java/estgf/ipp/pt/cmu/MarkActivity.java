@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class MarkActivity extends AppCompatActivity {
 
@@ -40,16 +41,26 @@ public class MarkActivity extends AppCompatActivity {
         verify();
 
     }
-    private void verify () {
+
+    private void verify() {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
                 Calendar calendar = Calendar.getInstance();
-                if (calendar.get(Calendar.DAY_OF_MONTH) > day && calendar.get(Calendar.MONTH) <= (month + 1)) {
-                    Toast.makeText(getApplicationContext(), "Impossível marcar atividade para a data pretendida ", Toast.LENGTH_SHORT).show();
-                    verify();
+                int dia_hj = calendar.get(Calendar.DAY_OF_MONTH);
+                int mes_hj = calendar.get(Calendar.MONTH);
+                int ano_hj = calendar.get(Calendar.YEAR);
+
+                String today;
+                String selectedDate;
+                selectedDate = year + "/" + (month + 1) + "/" + day;
+                today = ano_hj + "/" + (mes_hj + 1) + "/" + dia_hj;
+
+                if (today.compareTo(selectedDate) <= 0) {
+                    String date = day + "/" + (month + 1) + "/" + year;
+                    showNotification(date);
+//                    Toast.makeText(getApplicationContext(), "Possível marcar data", Toast.LENGTH_SHORT).show();
                 } else {
-                    String selectedDate = day + "/" + (month + 1) + "/" + year;
-                    showNotification(selectedDate);
+                    Toast.makeText(getApplicationContext(), "Impossível marcar data", Toast.LENGTH_SHORT).show();
                 }
             }
         });
