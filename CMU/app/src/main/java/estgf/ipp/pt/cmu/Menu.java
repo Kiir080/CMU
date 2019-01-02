@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,6 +66,8 @@ context=this;
         Button btnMarkActivity = (Button) findViewById(R.id.mark_activity);
         Button btnStartActivity = (Button) findViewById(R.id.start_activity);
         Button btnMealActivity = (Button) findViewById(R.id.meal_activity);
+        FloatingActionButton mapButton = (FloatingActionButton) findViewById(R.id.showMapButton);
+
 
         btnMarkActivity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +89,14 @@ context=this;
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(Menu.this, WeeksMealPlan.class);
+                startActivity(intent);
+            }
+        });
+
+        mapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Menu.this, MapsActivity.class);
                 startActivity(intent);
             }
         });
