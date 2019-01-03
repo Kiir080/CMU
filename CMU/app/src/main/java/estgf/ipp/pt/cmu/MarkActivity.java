@@ -50,18 +50,18 @@ public class MarkActivity extends AppCompatActivity {
                 int mes_hj = calendar.get(Calendar.MONTH);
                 int ano_hj = calendar.get(Calendar.YEAR);
 
-                String today;
-                String selectedDate;
-                selectedDate = year + "/" + (month + 1) + "/" + day;
-                today = ano_hj + "/" + (mes_hj + 1) + "/" + dia_hj;
 
-                if (today.compareTo(selectedDate) <= 0) {
+                Date date1 = new Date(ano_hj, mes_hj, dia_hj);
+                Date date2 = new Date(year, month, day);
+
+                if (date1.compareTo(date2) <= 0) {
                     String date = day + "/" + (month + 1) + "/" + year;
                     showNotification(date);
 //                    Toast.makeText(getApplicationContext(), "Possível marcar data", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Impossível marcar data", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
@@ -82,14 +82,14 @@ public class MarkActivity extends AppCompatActivity {
         });
     }
 
-    private void dateFromCalendar() {
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            @Override
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
-                String date = year + "/" + month + "/" + day;
-            }
-        });
-    }
+//    private void dateFromCalendar() {
+//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//            @Override
+//            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
+//                String date = year + "/" + month + "/" + day;
+//            }
+//        });
+//    }
 
     private void createNotificationChanel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
