@@ -10,99 +10,76 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
 
+import estgf.ipp.pt.cmu.Service.ScheduleClient;
+
+
 public class MarkActivity extends AppCompatActivity {
 
-    private String CHANNEL_ID = "channel";
-    private int notificationId;
-    private String channel_description = "This is a channel";
-    private String channel_name = "Channel";
-
-    private TextView title;
-    private CalendarView calendarView;
-    private Button launch_btn;
+    private ScheduleClient scheduleClient;
+    private DatePicker picker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mark_activity);
 
-        createNotificationChanel();
+//        Criaçãp de um novo serviço de cliente  e ligação da atividade a este serviço
+        scheduleClient = new ScheduleClient(this);
+        scheduleClient.doBindService();
 
-        title = (TextView) findViewById(R.id.mark_activity);
-        calendarView = (CalendarView) findViewById(R.id.mark_activity_calendar);
-        launch_btn = (Button) findViewById(R.id.launch_notification);
+//        Referência para a nossa escolha de data
+        picker = (DatePicker) findViewById(R.id.mark_activity_calendar);
+//        launch_btn = (Button) findViewById(R.id.launch_notification);
 
-        verify();
+//        verify();
 
     }
 
-    private void verify() {
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
-                Calendar calendar = Calendar.getInstance();
-                int dia_hj = calendar.get(Calendar.DAY_OF_MONTH);
-                int mes_hj = calendar.get(Calendar.MONTH);
-                int ano_hj = calendar.get(Calendar.YEAR);
+    /**
+     * Método onClick definido no XML mark_activity
+     */
+    public void onDateSelectedButtonClick(View v) {
+        // Get the date from our datepicker
+        int day = picker.getDayOfMonth();
+        int month = picker.getMonth();
+        int year = picker.getYear();
+//        Criação de um calendário para que possamos escolher a data da nossa atividade
+        Calendar selectedDate = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+        selectedDate.set(year, month, day);
+        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+        selectedDate.set(Calendar.MINUTE, 0);
+        selectedDate.set(Calendar.SECOND, 0);
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
 
 
-                Date date1 = new Date(ano_hj, mes_hj, dia_hj);
-                Date date2 = new Date(year, month, day);
-
-                if (date1.compareTo(date2) <= 0) {
-                    String date = day + "/" + (month + 1) + "/" + year;
-                    showNotification(date);
-//                    Toast.makeText(getApplicationContext(), "Possível marcar data", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Impossível marcar data", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        });
-    }
-
-    public void showNotification(final String activityDate) {
-        launch_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NotificationCompat.Builder createNotification = new NotificationCompat.Builder(MarkActivity.this, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.notification)
-                        .setContentTitle("Notificação")
-                        .setContentText("Atividade marcada para " + activityDate)
-                        .setAutoCancel(true)
-                        .setPriority(NotificationCompat.PRIORITY_HIGH);
-                NotificationManagerCompat showNot = NotificationManagerCompat.from(MarkActivity.this);
-                showNot.notify(notificationId, createNotification.build());
-            }
-        });
-    }
-
-//    private void dateFromCalendar() {
-//        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//            @Override
-//            public void onSelectedDayChange(CalendarView calendarView, int year, int month, int day) {
-//                String date = year + "/" + month + "/" + day;
-//            }
-//        });
-//    }
-
-    private void createNotificationChanel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channel_name, importance);
-            channel.setDescription(channel_description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+        if (today.compareTo(selectedDate) <= 0) {
+//        Pedir ao serviço para que lance um alarm para a data que o utilizador marcou a atividade, que por sua vez a aplicação fala com o "cliente" e esta pede informação ao serviço
+            scheduleClient.setAlarmForNotification(selectedDate);
+//         Notificação para que o utilizador saiba para quando marcou a atividade
+            Toast.makeText(this, "Notificação marcada para " + day + "/" + (month + 1) + "/" + year, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "Impossível marcar data", Toast.LENGTH_SHORT).show();
         }
+
     }
-//    Just here if needed
-//    public void cancelNotification () {
-//        NotificationManagerCompat cancelMessage = NotificationManagerCompat.from(this);
-//        cancelMessage.cancel(notificationId);
-//    }
+
+    @Override
+    protected void onStop() {
+//        Este método permite que quando a aplicaão seja fechada, a notificação feche também
+        if (scheduleClient != null)
+            scheduleClient.doUnbindService();
+        super.onStop();
+    }
+
+
 }
