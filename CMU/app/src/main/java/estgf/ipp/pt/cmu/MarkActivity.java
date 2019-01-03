@@ -50,10 +50,6 @@ public class MarkActivity extends AppCompatActivity {
                 int mes_hj = calendar.get(Calendar.MONTH);
                 int ano_hj = calendar.get(Calendar.YEAR);
 
-                String today;
-                String selectedDate;
-                selectedDate = year + "/" + month + "/" + day;
-                today = ano_hj + "/" + mes_hj + "/" + dia_hj;
 
                 Date date1 = new Date(ano_hj, mes_hj, dia_hj);
                 Date date2 = new Date(year, month, day);
