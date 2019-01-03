@@ -18,6 +18,8 @@ import estgf.ipp.pt.cmu.Entities.Food.Recipe;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Utilities.typeadapters.RuntimeTypeAdapterFactory;
 
+
+//Converter para Lista de Food
 public class Converter2 {
 
         private static final RuntimeTypeAdapterFactory<Food> typeFactory = RuntimeTypeAdapterFactory

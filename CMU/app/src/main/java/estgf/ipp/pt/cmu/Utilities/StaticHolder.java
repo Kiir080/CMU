@@ -16,6 +16,7 @@ public class StaticHolder{
     public static NotifyToUpdateWeeksDay notifyToUpdateWeeksDay;
     public static NotifyToAddDefaultMealToUser notifyToAddDefaultMealToUser;
     private static List<Meal> DEFAULT_MEALS = generateListOfMeals();
+    public static int maxCaloriesDay=0;
 
     public static void addMealToDefault(Meal meal){
         DEFAULT_MEALS.add(meal);

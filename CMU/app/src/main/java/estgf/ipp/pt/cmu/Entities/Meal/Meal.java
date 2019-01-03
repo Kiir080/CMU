@@ -1,14 +1,11 @@
 package estgf.ipp.pt.cmu.Entities.Meal;
 
-import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.Relation;
 import android.arch.persistence.room.TypeConverters;
-import android.content.Intent;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -20,9 +17,8 @@ import java.util.Locale;
 
 import estgf.ipp.pt.cmu.Entities.Food.Food;
 import estgf.ipp.pt.cmu.Entities.WeeksDays.WeeksDays;
-import estgf.ipp.pt.cmu.Utilities.Converter;
 import estgf.ipp.pt.cmu.Utilities.Converter2;
-import estgf.ipp.pt.cmu.Utilities.MaxCaloriesDay;
+import estgf.ipp.pt.cmu.Utilities.StaticHolder;
 
 @Entity( foreignKeys = @ForeignKey(entity = WeeksDays.class,
         parentColumns = "id",
@@ -90,7 +86,7 @@ public class Meal implements Serializable {
     }
 
     public String RecommendedCalories() {
-        int calories = (int) (MaxCaloriesDay.maxCaloriesDay* recommendedCalories);
+        int calories = (int) (StaticHolder.maxCaloriesDay* recommendedCalories);
         return String.valueOf(calories);
     }
 

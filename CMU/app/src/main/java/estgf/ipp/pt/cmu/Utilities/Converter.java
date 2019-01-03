@@ -12,6 +12,7 @@ import java.util.List;
 
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 
+//Converter para Lista de Meal's
 public class Converter {
 
         @TypeConverter

@@ -1,6 +1,5 @@
 package estgf.ipp.pt.cmu;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -18,16 +17,11 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessActivities;
 import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.Bucket;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,7 +29,6 @@ import com.google.android.gms.tasks.Task;
 
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +36,6 @@ import estgf.ipp.pt.cmu.Database.Controllers.DBController;
 import estgf.ipp.pt.cmu.Database.Interfaces.NotifyGetUsers;
 import estgf.ipp.pt.cmu.Entities.Meal.Meal;
 import estgf.ipp.pt.cmu.Entities.User.User;
-import estgf.ipp.pt.cmu.Utilities.MaxCaloriesDay;
 import estgf.ipp.pt.cmu.Utilities.StaticHolder;
 
 import static java.text.DateFormat.getTimeInstance;
@@ -207,7 +199,7 @@ context=this;
             Intent intent = new Intent(this,Register.class);
             startActivity(intent);
         }else{
-            MaxCaloriesDay.maxCaloriesDay=userList.get(0).getMaxCalories();
+            StaticHolder.maxCaloriesDay=userList.get(0).getMaxCalories();
             if(userList.get(0).getADDED_DEFAULT_MEALS() != null){
                 for (Meal meal:
                         userList.get(0).getADDED_DEFAULT_MEALS()) {
