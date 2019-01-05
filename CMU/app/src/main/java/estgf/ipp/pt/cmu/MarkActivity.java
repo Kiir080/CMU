@@ -54,12 +54,9 @@ public class MarkActivity extends AppCompatActivity {
         Calendar selectedDate = Calendar.getInstance();
         Calendar today = Calendar.getInstance();
         selectedDate.set(year, month, day);
-        selectedDate.set(Calendar.HOUR_OF_DAY, 0);
+        selectedDate.set(Calendar.HOUR_OF_DAY, 9);
         selectedDate.set(Calendar.MINUTE, 0);
         selectedDate.set(Calendar.SECOND, 0);
-        today.set(Calendar.HOUR_OF_DAY, 0);
-        today.set(Calendar.MINUTE, 0);
-        today.set(Calendar.SECOND, 0);
 
 
         if (today.compareTo(selectedDate) <= 0) {
