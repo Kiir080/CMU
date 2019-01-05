@@ -74,4 +74,6 @@
         <item>Female</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="marcar_atividade">Marcar atividade</string>
+    <string name="notific_o">Notificão</string>
 </resources>
